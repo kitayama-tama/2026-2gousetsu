@@ -23,6 +23,9 @@
             
             /* 湘南キャンパス用の強調色（赤） */
             --shonan-color: #d32f2f; 
+            
+            /* 留学生バッジ用（緑） */
+            --intl-color: #2e7d32;
         }
 
         * {
@@ -376,6 +379,13 @@
             color: #0d47a1;
             border: 1px solid #bbdefb;
         }
+        
+        /* 留学生バッジ */
+        .badge-intl {
+            background-color: #e8f5e9;
+            color: var(--intl-color);
+            border: 1px solid #a5d6a7;
+        }
 
         .catchphrase {
             font-size: 0.95rem;
@@ -579,6 +589,18 @@
             text-align: left;
             border-bottom: 1px solid #eee;
         }
+        
+        /* 留学生列の中央揃え */
+        .company-list-table td.text-center,
+        .company-list-table th.text-center {
+            text-align: center;
+        }
+        
+        .intl-mark {
+            color: var(--intl-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
 
         .company-list-table th {
             background-color: #f8f9fa;
@@ -623,6 +645,14 @@
             .company-list-table td:nth-child(2) {
                 display: none;
             }
+            
+            /* スマホでの留学生列調整 */
+            .company-list-table th:nth-child(4), 
+            .company-list-table td:nth-child(4) {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
             .search-box { flex-direction: column; }
         }
         
@@ -726,6 +756,10 @@
                 <option value="2026-02-25">2/25 (水)</option>
                 <option value="2026-02-26">2/26 (木)</option>
             </select>
+            <!-- 留学生フィルター追加 -->
+            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; background:#fff; padding:0 10px; border-radius:8px; border:1px solid #ccc;">
+                <input type="checkbox" id="intl-filter" onchange="filterList()"> 留学生歓迎のみ
+            </label>
         </div>
         <table class="company-list-table">
             <thead>
@@ -733,6 +767,7 @@
                     <th>日程</th>
                     <th>業界</th>
                     <th>企業名</th>
+                    <th class="text-center">留学生</th>
                 </tr>
             </thead>
             <tbody id="all-companies-body">
@@ -810,7 +845,7 @@
 </div>
 
 <script>
-    // ▼ スケジュール定義
+    // ▼ スケジュール定義 (Pattern A: 通常, Pattern B: 9・10日)
     const schedules = {
         "A": [
             { time: "12:45 ～ 13:00", event: "全体挨拶・概要説明" },
@@ -828,7 +863,7 @@
         ]
     };
     
-    // 日付ごとの設定
+    // 日付ごとのスケジュールタイプと場所
     const dateConfig = {
         "2026-02-04": { type: "A", location: "多摩大学 多摩キャンパス" },
         "2026-02-05": { type: "A", location: "多摩大学 多摩キャンパス" },
@@ -850,7 +885,8 @@
                 location: "神奈川県 / 愛知県",
                 person: "・新しい知識・技術や知らないことに関して好奇心がある人\n・仲間と協力し熱意をもって仕事に取り組むことができる人",
                 pr: "「測量CADシステムの開発・販売」そして「自動運転サービスの提供」を通じて、より良い未来の社会インフラの発展に貢献するIT企業です。",
-                alumni: 2
+                alumni: 2,
+                international: false // ★サンプル
             },
             {
                 name: "相田化学工業株式会社",
@@ -861,7 +897,8 @@
                 location: "本社(東京都府中市)ほか",
                 person: "・健康であること\n・プラス思考であること\n・チャレンジ精神をもっていること",
                 pr: "創業63年目の貴金属リサイクル企業です。100年企業を目指し、健康推進企業として社員が健康に活躍できる職場環境を整えています。",
-                alumni: 1
+                alumni: 1,
+                international: false
             },
             {
                 name: "京王電鉄株式会社",
@@ -872,7 +909,8 @@
                 location: "東京都 / 神奈川県",
                 person: "・接客や笑顔に自信がある方\n・法令・規則を遵守できる方",
                 pr: "グループ理念である「信頼のトップブランド」の確立のため、鉄道事業を中心に沿線価値向上につながる生活関連サービスを積極的に提供しています。",
-                alumni: 7
+                alumni: 7,
+                international: true
             },
             {
                 name: "スズキ販売会社グループ",
@@ -883,7 +921,8 @@
                 location: "神奈川県内（平塚、小田原、厚木など）",
                 person: "・人と話すことが好きな人\n・関係構築を大切にできる人",
                 pr: "「小さなクルマ、大きな未来。」のスローガンのもとコンパクトカーの販売を強みとしております。",
-                alumni: 0
+                alumni: 0,
+                international: true
             },
             {
                 name: "CSP セントラル警備保障株式会社",
@@ -894,7 +933,8 @@
                 location: "首都エリアほか",
                 person: "「自律型人材」：積極性・誠実さ・コミュニケーション力があり、自分で考えて行動できる人。",
                 pr: "東証プライム上場、業界大手第3位。JR東日本と業務提携！質の高いサービスを提供。",
-                alumni: 2
+                alumni: 2,
+                international: false
             },
             {
                 name: "株式会社全労済システムズ",
@@ -905,7 +945,8 @@
                 location: "東京都八王子市別所（転勤なし）",
                 person: "・積極性\n・誠実さ\n・コミュニケーション力",
                 pr: "社会インフラを支える使命感とやりがいのある仕事です。文理不問・未経験でも安心して成長できる環境が整っています。",
-                alumni: 3
+                alumni: 3,
+                international: false
             },
             {
                 name: "多摩信用金庫",
@@ -916,7 +957,8 @@
                 location: "東京都多摩地域 / 神奈川県(相模原市)",
                 person: "誠実さ、向上心、主体性、地域貢献への熱意",
                 pr: "お客さまを訪問し、面談を通してお客さまの抱える悩みや叶えたい夢を把握し、課題解決を行います。",
-                alumni: 13
+                alumni: 13,
+                international: false
             },
             {
                 name: "日本瓦斯株式会社(ニチガス)",
@@ -927,7 +969,8 @@
                 location: "関東一都六県・山梨・静岡・長野",
                 person: "失敗を恐れず、積極的に「挑戦」できる人。",
                 pr: "LPガス小売シェア関東圏内第1位。エネルギー業界に変革を起こし、新たな分野に果敢にチャレンジしていく社風があります。",
-                alumni: 3
+                alumni: 3,
+                international: false
             },
             {
                 name: "パルシステムグループ",
@@ -938,7 +981,8 @@
                 location: "東京・神奈川・千葉・埼玉（地域別採用）",
                 person: "様々な方の思いを受け止め寄り添える方、地域に貢献したい方、チームで働きたい方。",
                 pr: "作り手と組合員の『架け橋』となることです。商品のこだわりとそこに込められた「物語」を伝えています。",
-                alumni: 4
+                alumni: 4,
+                international: true
             },
             {
                 name: "株式会社マルエツ",
@@ -949,7 +993,8 @@
                 location: "東京、神奈川、千葉、埼玉、茨城、栃木",
                 person: "1.「食」を通じてライフラインを支えたい方\n2. 人の幸せに喜びを感じられる方",
                 pr: "イオングループの食品スーパーマーケットです。髪色自由・ネイル・私服OKと、自分らしく働きたい方にオススメ。教育制度も充実。",
-                alumni: 7
+                alumni: 7,
+                international: false
             }
         ],
         
@@ -963,7 +1008,8 @@
                 location: "本人の希望を考慮し決定(全国)",
                 person: "「人のため、未来のため、自らの誇りにかけて行動できる人」",
                 pr: "建設機械レンタル業界売上No.1企業です。新入社員研修では約20種類の資格を取得できるため、未経験でも安心です。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "AMBL株式会社",
@@ -974,7 +1020,8 @@
                 location: "本社(赤坂)またはプロジェクト先(都内)",
                 person: "・チャレンジ精神をお持ちの方\n・チームワークを好む方\n・成長意欲がある方",
                 pr: "AIをはじめDXに必要な幅広い技術に強み。若手でも重要な案件に早期から参画可能。資格取得支援や研修も豊富です。",
-                alumni: 1
+                alumni: 1,
+                international: false
             },
             {
                 name: "株式会社サイネックス",
@@ -985,7 +1032,8 @@
                 location: "全国各地(希望考慮)",
                 person: "・コミュニケーション能力が高く、人と話すのが好きな方\n・地元に貢献したい方",
                 pr: "「自分の力で地域を活気づけたい」。そんな想いを、仕事に変えてみませんか？",
-                alumni: 1
+                alumni: 1,
+                international: false
             },
             {
                 name: "相模鉄道株式会社",
@@ -996,7 +1044,8 @@
                 location: "横浜市、大和市、海老名市、藤沢市",
                 person: "「より良い未来を創りたい」等の3つの思いと、「成長する」「工夫する」等の5つの行動に共感できる人材。",
                 pr: "都心直通運転を契機とした新しい豊かさの創造に挑戦し、成長し続けていきます。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "生活協同組合コープみらい",
@@ -1007,7 +1056,8 @@
                 location: "千葉県・埼玉県・東京都",
                 person: "・人とコミュニケーションを取ることが好きな方\n・人から感謝される、人の役に立つ仕事がしたい方",
                 pr: "地域の方々の声を大切に人々の生活を支えていくことを大切にしている組織です。",
-                alumni: 3
+                alumni: 3,
+                international: false
             },
             {
                 name: "フォレックス株式会社",
@@ -1018,7 +1068,8 @@
                 location: "横浜事業所(横浜駅徒歩6分)",
                 person: "「より正確に、より早く、より便利に」を理解し行動できる方。チームワークを発揮できる方。",
                 pr: "新技術を積極的に取り入れ、社会を支える最先端のシステム開発に取り組んでいます。文理不問、研修制度あり。",
-                alumni: 1
+                alumni: 1,
+                international: false
             },
             {
                 name: "フクダ電子株式会社",
@@ -1029,7 +1080,8 @@
                 location: "東京、千葉、および全国の販売会社",
                 person: "・医療に対する高いモチベーションがある方\n・主体性と協調性のバランスが良い方",
                 pr: "いち早く在宅医療を全国に展開。心電計にAIを搭載した技術力が特徴です。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "富士ダイス株式会社",
@@ -1040,7 +1092,8 @@
                 location: "東京(本社)、福島、神奈川、愛知、大阪など",
                 person: "・チャレンジ精神のある人\n・学び続けることができる人\n・ものづくりが好きな人",
                 pr: "自動車部品、スマホ、新幹線など生活に欠かせない製品を作り出しています。耐摩耗工具の国内シェアTOP。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "横浜冷凍株式会社",
@@ -1051,7 +1104,8 @@
                 location: "全国(北海道〜鹿児島)",
                 person: "柔軟な発想力、決断力、好奇心のある方。",
                 pr: "東証プライム上場。冷蔵倉庫業界第2位。食品流通のエキスパートとして豊かな食生活を支えています。",
-                alumni: 0
+                alumni: 0,
+                international: true
             },
             {
                 name: "株式会社ワキタCSS技術開発",
@@ -1062,7 +1116,8 @@
                 location: "東京本社および全国支店(FS)、東京本社(DM)",
                 person: "・チームで協力して仕事を進められる方\n・最先端の技術やドローンに興味がある方",
                 pr: "売上10億円・従業員100名超の規模を誇る測量会社。未経験からスタートした若手社員が多数活躍中。",
-                alumni: 5
+                alumni: 5,
+                international: true
             }
         ],
         
@@ -1076,7 +1131,8 @@
                 location: "",
                 person: "",
                 pr: "温泉旅館業界の常識にとらわれない新しい手法を導入しています。",
-                alumni: 0
+                alumni: 0,
+                international: false // サンプル
             },
             {
                 name: "株式会社イノベイションオブメディカルサービス",
@@ -1087,7 +1143,8 @@
                 location: "",
                 person: "",
                 pr: "全国トップクラスの取扱商品数を誇り、幅広いサービスを展開している企業です。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "株式会社オノマシン",
@@ -1098,7 +1155,8 @@
                 location: "",
                 person: "",
                 pr: "幅広い製品を揃え、技術を核にした現場力で社会に貢献しています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "かながわ信用金庫",
@@ -1109,7 +1167,8 @@
                 location: "",
                 person: "",
                 pr: "地域密着型で、金融サービスだけでなく地域活性化プロジェクトも推進しています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "株式会社データサービス",
@@ -1120,7 +1179,8 @@
                 location: "",
                 person: "",
                 pr: "多様なITソリューションで顧客の課題解決を支援している企業です。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "株式会社東計電算",
@@ -1131,7 +1191,8 @@
                 location: "",
                 person: "",
                 pr: "データセンターを活用したアウトソーシング事業やネットワーク構築も展開。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "日本ロジテム株式会社",
@@ -1142,7 +1203,8 @@
                 location: "",
                 person: "",
                 pr: "共同配送や通販物流などの付加価値サービスで顧客を支える総合物流企業です。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "ミモザ株式会社",
@@ -1153,7 +1215,8 @@
                 location: "",
                 person: "",
                 pr: "高齢者の幸せな暮らしを支える介護事業を行っています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "株式会社横浜グランドインターコンチネンタルホテル",
@@ -1164,7 +1227,8 @@
                 location: "",
                 person: "",
                 pr: "国内外のVIPや観光客に世界基準のおもてなしを届けています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "リゾートトラスト株式会社",
@@ -1175,7 +1239,8 @@
                 location: "",
                 person: "",
                 pr: "多様なリゾートライフをサポートする総合リゾート事業を展開する企業です。",
-                alumni: 0
+                alumni: 0,
+                international: false
             }
         ],
 
@@ -1189,7 +1254,8 @@
                 location: "",
                 person: "",
                 pr: "Web・メインフレーム対応のシステム構築を強みとし、顧客の課題解決を支援しています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "神奈川三菱ふそう自動車販売株式会社",
@@ -1200,7 +1266,8 @@
                 location: "",
                 person: "",
                 pr: "物流業界のオーダーメイドニーズに応える自動車販売企業です。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "管清工業株式会社",
@@ -1211,7 +1278,8 @@
                 location: "",
                 person: "",
                 pr: "最新技術を活用し、安全で快適な都市環境を支えるインフラ維持管理事業を行っています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "国際自動車株式会社",
@@ -1222,7 +1290,8 @@
                 location: "",
                 person: "",
                 pr: "ホスピタリティあふれる移動空間を創出している企業です。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "コムテック株式会社",
@@ -1233,7 +1302,8 @@
                 location: "",
                 person: "",
                 pr: "お客様のニーズに合わせて業務設計を行い、課題解決を支援しています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "JAさがみ",
@@ -1244,7 +1314,8 @@
                 location: "",
                 person: "",
                 pr: "地域農業の振興や生活支援を総合的に行っています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "スズキ販売会社グループ",
@@ -1255,7 +1326,8 @@
                 location: "",
                 person: "",
                 pr: "地域密着型のサービスを提供しています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "相鉄ホテル株式会社",
@@ -1266,7 +1338,8 @@
                 location: "",
                 person: "",
                 pr: "夜景を活かした上質な宿泊・飲食サービスを行う企業です。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "株式会社トヨタレンタリース神奈川",
@@ -1277,7 +1350,8 @@
                 location: "",
                 person: "",
                 pr: "法人・個人双方の多様な移動ニーズに対応しています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "株式会社ノットグローバルホールディングス",
@@ -1288,7 +1362,8 @@
                 location: "",
                 person: "",
                 pr: "企業や個人の多様な輸出入ニーズに応える事業を行っています。",
-                alumni: 0
+                alumni: 0,
+                international: false
             }
         ],
 
@@ -1302,8 +1377,8 @@
                 location: "東京・千葉・神奈川・埼玉・山梨など",
                 person: "どんな方とも柔軟に接することができる方。",
                 pr: "事務系総合職として、資格なし・医療知識なしでもチャレンジできる環境です！",
-                alumni: 3
-            },
+                alumni: 3,
+                international: true            },
             {
                 name: "株式会社エコス",
                 industry: "小売業",
@@ -1313,7 +1388,8 @@
                 location: "東京・埼玉・神奈川・千葉・栃木・茨城・福島",
                 person: "人と接することが好きな方。",
                 pr: "東証プライム上場。「個店経営」で地域に根差した店づくりを実現しています。",
-                alumni: 0
+                alumni: 0,
+                international: true
             },
             {
                 name: "コーナン商事株式会社",
@@ -1323,7 +1399,8 @@
                 job: "総合職 / 地域限定職",
                 location: "近畿、関東、東海、中国、四国、九州、東北",
                 person: "主体性、協調性、柔軟性を兼ね備えた、失敗を恐れずにチャレンジできる人。",
-                alumni: 7
+                alumni: 7,
+                international: true
             },
             {
                 name: "トヨタエルアンドエフ東京株式会社",
@@ -1334,7 +1411,8 @@
                 location: "都内8拠点(港、大田、江東、多摩、八王子等)",
                 person: "・チームワークを大切にできる人\n・先を読んで考え、行動できる人",
                 pr: "フォークリフトシェア59年連続No.1。物流に関する機器を取り扱う総合商社です。",
-                alumni: 2
+                alumni: 2,
+                international: true
             },
             {
                 name: "日本駐車場開発株式会社",
@@ -1345,7 +1423,8 @@
                 location: "東京(丸の内)、大阪(梅田)",
                 person: "・現状に満足せず常に挑戦し、成長を楽しめる人\n・自ら考え行動できる人",
                 pr: "社会課題をビジネスで解決する会社。若手でも積極的に挑戦させてもらえる社風です。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "日本ロジテム株式会社",
@@ -1356,7 +1435,8 @@
                 location: "首都圏中心に各営業所、海外駐在など",
                 person: "チームで仕事をする上でのコミュニケーション能力、マネジメント能力。",
                 pr: "東南アジアにも展開し、企業物流の一翼を担っています。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "東日本旅客鉄道株式会社",
@@ -1366,7 +1446,8 @@
                 job: "総合職、エリア職(駅・乗務員、技術、土木等)",
                 location: "首都圏エリア、高崎、水戸、長野、仙台等",
                 person: "JR東日本という広大なフィールドでくらしを、世の中を、変えていきたい人。",
-                alumni: 8
+                alumni: 8,
+                international: true
             },
             {
                 name: "株式会社ベストランス",
@@ -1377,7 +1458,8 @@
                 location: "関東の配送センター(現住所付近を検討)",
                 person: "積極的にコミュニケーションが取れる方。",
                 pr: "わらべや日洋HDグループ。食の物流を担う安定成長企業です。",
-                alumni: 2
+                alumni: 2,
+                international: true
             },
             {
                 name: "株式会社ランドコンピュータ",
@@ -1388,7 +1470,8 @@
                 location: "東京、大阪(転勤なし)",
                 person: "優しさ、好奇心、バイタリティー、コミュニケーション。",
                 pr: "前身が学校法人であり、教育には特に力を入れています。文系出身でも安心。",
-                alumni: 3
+                alumni: 3,
+                international: true
             },
             {
                 name: "株式会社リログループ",
@@ -1399,7 +1482,8 @@
                 location: "東京、名古屋、大阪",
                 person: "「スキルよりウィル」。将来やりたいことに対してチャレンジしたい方。",
                 pr: "「今自分に何ができるかより、自分は何をやりたいのか」に背中を押してくれる会社です。",
-                alumni: 5
+                alumni: 5,
+                international: true
             }
         ],
 
@@ -1413,7 +1497,8 @@
                 location: "全国(企画事務職は横浜)",
                 person: "・自らも変わり続けることのできる人\n・自ら考え行動できる人",
                 pr: "創業94年のBtoBメーカー。タイムレコーダーや駐車場システム等で社会を支えています。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "石川玩具株式会社",
@@ -1424,7 +1509,8 @@
                 location: "東京、大阪、福岡、埼玉",
                 person: "・おもちゃが好きな人\n・お客様の信頼を得られる「人柄」がある人",
                 pr: "創業100年の安定経営。良い子に幸せをお届けする玩具商社です。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "オーケー株式会社",
@@ -1434,7 +1520,8 @@
                 job: "店舗スタッフ / 本社スタッフ",
                 location: "東京・神奈川・千葉・埼玉の各店舗または本社",
                 person: "社是「極めて謙虚で、極めて誠実、極めて勤勉」を体現できる方。",
-                alumni: 11
+                alumni: 11,
+                international: false
             },
             {
                 name: "株式会社K-LINE",
@@ -1445,7 +1532,8 @@
                 location: "原則として本社(四谷)",
                 person: "・学び続ける姿勢を持った方\n・外国人材と協働できる方",
                 pr: "優秀な外国人労働者を迅速に確保し、企業の生産を支えています。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "スジャータめいらくグループ",
@@ -1456,7 +1544,8 @@
                 location: "営業(全国)、生産技術・検査(千葉)",
                 person: "・ポジティブで協調性のある方\n・前向きで使命感の強い方",
                 pr: "創業100周年に向け、美味しさと健康をお届けしています。",
-                alumni: 2
+                alumni: 2,
+                international: false
             },
             {
                 name: "株式会社総合車両製作所",
@@ -1467,7 +1556,8 @@
                 location: "横浜、新潟、和歌山、東京など",
                 person: "・チームで行動できる方\n・プロフェッショナルを目指せる方",
                 pr: "JR東日本グループ。通勤車両や新幹線など様々な鉄道車両を製造しています。",
-                alumni: 0
+                alumni: 0,
+                international: true
             },
             {
                 name: "株式会社南旺社",
@@ -1478,7 +1568,8 @@
                 location: "自社(鶴見)または客先(神奈川、東京)",
                 person: "・主体性と協調性がある人\n・素直に相談できる人",
                 pr: "信頼と調和を大切にする会社。新卒の過半数が非情報系学部出身です。",
-                alumni: 1
+                alumni: 1,
+                international: true
             },
             {
                 name: "山梨信用金庫",
@@ -1488,7 +1579,8 @@
                 job: "総合職(限定職種なし)",
                 location: "山梨県内全域、神奈川県相模原市",
                 person: "地元のために、地域のために働きたいとの思いを持つ方。",
-                alumni: 0
+                alumni: 0,
+                international: false
             },
             {
                 name: "株式会社ロッテリア",
@@ -1498,7 +1590,8 @@
                 job: "総合職(全国社員 / 地域正社員)",
                 location: "全国または限定地域の直営店舗",
                 person: "お客様に笑顔をお届けしたい、自分も笑顔で働きたいと感じている方。",
-                alumni: 0
+                alumni: 0,
+                international: true
             },
             {
                 name: "株式会社ランダルコーポレーション",
@@ -1509,7 +1602,8 @@
                 location: "本社(埼玉)・首都圏近郊",
                 person: "・探求心をもって素直に取り組める方\n・主体性をもってチャレンジしたい方",
                 pr: "設立から40年。福祉用具のリーディングカンパニーとして安定成長中。",
-                alumni: 1
+                alumni: 1,
+                international: true
             }
         ]
     };
@@ -1617,6 +1711,10 @@
             if (company.alumni > 0) {
                 badgesHtml += `<span class="badge badge-ob">多摩大OB/OG ${company.alumni}名</span>`;
             }
+            // 留学生バッジ (追加)
+            if (company.international) {
+                badgesHtml += `<span class="badge badge-intl">留学生歓迎</span>`;
+            }
             // 勤務地バッジ
             if (company.location && (company.location.includes("多摩") || company.location.includes("東京") || company.location.includes("横浜") || company.location.includes("神奈川"))) {
                  badgesHtml += `<span class="badge badge-loc">関東・東京エリア</span>`;
@@ -1633,6 +1731,58 @@
             `;
             grid.appendChild(card);
         });
+    }
+
+    // モーダルオープン
+    function openModal(company) {
+        document.getElementById('modal-name').innerText = company.name;
+        document.getElementById('modal-industry').innerText = company.industry;
+        
+        // 詳細データのセット
+        // 9日・10日はデータが少ないため、空の項目を隠す処理を入れる
+        const fields = [
+            { id: 'modal-business', val: company.business, sec: 'sec-business' },
+            { id: 'modal-job', val: company.job ? `【職種】${company.job}\n【勤務地】${company.location}` : null, sec: 'sec-job' },
+            { id: 'modal-person', val: company.person, sec: 'sec-person' },
+            { id: 'modal-pr', val: company.pr, sec: 'sec-pr' }
+        ];
+
+        fields.forEach(f => {
+            const el = document.getElementById(f.id);
+            const sec = document.getElementById(f.sec);
+            if (f.val) {
+                el.innerText = f.val;
+                sec.classList.remove('hidden');
+            } else {
+                sec.classList.add('hidden');
+            }
+        });
+        
+        // バッジ
+        const badgeArea = document.getElementById('modal-badges');
+        let badgesHtml = '';
+        if (company.alumni > 0) {
+            badgesHtml += `<span class="badge badge-ob" style="font-size:0.9rem; padding:4px 10px;">多摩大学 卒業生 ${company.alumni}名在籍</span>`;
+        }
+        // 留学生バッジ (モーダル内)
+        if (company.international) {
+            badgesHtml += `<span class="badge badge-intl" style="font-size:0.9rem; padding:4px 10px;">留学生歓迎</span>`;
+        }
+        badgeArea.innerHTML = badgesHtml;
+
+        // リンク
+        const linkBtn = document.getElementById('modal-link');
+        linkBtn.href = `https://www.google.com/search?q=${company.name}`;
+        
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    // モーダルクローズ
+    function closeModal(e) {
+        if (e) e.stopPropagation();
+        modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
     }
 
     // 全リスト生成とフィルタリング
@@ -1677,12 +1827,15 @@
         const keyword = searchInput.value.toLowerCase();
         const industry = industryFilter.value;
         const dateVal = dateFilter.value;
+        const intlOnly = document.getElementById('intl-filter').checked; // 留学生フィルタ
 
         const filtered = allCompaniesFlat.filter(c => {
             const matchKeyword = c.name.toLowerCase().includes(keyword) || (c.catchphrase && c.catchphrase.toLowerCase().includes(keyword));
             const matchIndustry = industry === "" || c.industry === industry;
             const matchDate = dateVal === "" || c.dateKey === dateVal;
-            return matchKeyword && matchIndustry && matchDate;
+            const matchIntl = !intlOnly || c.international === true; // チェック時はtrueのみ
+            
+            return matchKeyword && matchIndustry && matchDate && matchIntl;
         });
 
         renderList(filtered);
@@ -1691,69 +1844,25 @@
     function renderList(list) {
         allCompaniesBody.innerHTML = "";
         if(list.length === 0) {
-            allCompaniesBody.innerHTML = "<tr><td colspan='3' style='text-align:center; padding:2rem;'>該当する企業が見つかりませんでした</td></tr>";
+            allCompaniesBody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:2rem;'>該当する企業が見つかりませんでした</td></tr>";
             return;
         }
 
         list.forEach(c => {
             const tr = document.createElement('tr');
             tr.onclick = () => openModal(c);
+            
+            // 留学生マーク
+            const intlMark = c.international ? "<span class='intl-mark'>◎</span>" : "";
+            
             tr.innerHTML = `
                 <td><span class="list-date-badge ${c.dateClass}">${c.dateDisplay}</span></td>
                 <td>${c.industry}</td>
                 <td style="font-weight:bold; color:var(--primary);">${c.name}</td>
+                <td class="text-center">${intlMark}</td>
             `;
             allCompaniesBody.appendChild(tr);
         });
-    }
-
-
-    // モーダルオープン
-    function openModal(company) {
-        document.getElementById('modal-name').innerText = company.name;
-        document.getElementById('modal-industry').innerText = company.industry;
-        
-        // 詳細データのセット
-        // 9日・10日はデータが少ないため、空の項目を隠す処理を入れる
-        const fields = [
-            { id: 'modal-business', val: company.business, sec: 'sec-business' },
-            { id: 'modal-job', val: company.job ? `【職種】${company.job}\n【勤務地】${company.location}` : null, sec: 'sec-job' },
-            { id: 'modal-person', val: company.person, sec: 'sec-person' },
-            { id: 'modal-pr', val: company.pr, sec: 'sec-pr' }
-        ];
-
-        fields.forEach(f => {
-            const el = document.getElementById(f.id);
-            const sec = document.getElementById(f.sec);
-            if (f.val) {
-                el.innerText = f.val;
-                sec.classList.remove('hidden');
-            } else {
-                sec.classList.add('hidden');
-            }
-        });
-        
-        // バッジ
-        const badgeArea = document.getElementById('modal-badges');
-        let badgesHtml = '';
-        if (company.alumni > 0) {
-            badgesHtml += `<span class="badge badge-ob" style="font-size:0.9rem; padding:4px 10px;">多摩大学 卒業生 ${company.alumni}名在籍</span>`;
-        }
-        badgeArea.innerHTML = badgesHtml;
-
-        // リンク
-        const linkBtn = document.getElementById('modal-link');
-        linkBtn.href = `https://www.google.com/search?q=${company.name}`;
-        
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    // モーダルクローズ
-    function closeModal(e) {
-        if (e) e.stopPropagation();
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
     }
 
     // 初期化
