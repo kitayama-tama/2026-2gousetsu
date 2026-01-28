@@ -4,13 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>【27卒対象】学内業界研究セミナー | 多摩大学</title>
-    <!-- 読みやすい日本語フォント -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* テーマカラー設定 */
             --primary: #0056b3;
             --primary-dark: #003d80;
             --accent: #f57c00;
@@ -18,24 +16,16 @@
             --card-bg: #ffffff;
             --text: #333333;
             --text-light: #666666;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            
-            /* 湘南キャンパス用の強調色（赤） */
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --shonan-color: #d32f2f; 
-            
-            /* 留学生バッジ用（緑） */
             --intl-color: #2e7d32;
+            --tama-color: #0288d1;
         }
 
-        * {
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; }
         body {
             font-family: 'Noto Sans JP', sans-serif;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
             background-color: var(--bg);
             color: var(--text);
             line-height: 1.6;
@@ -46,11 +36,9 @@
         header {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            padding: 2.5rem 1.5rem 4rem 1.5rem; /* 下部にタブのスペースを確保 */
+            padding: 2.5rem 1.5rem 4.5rem 1.5rem;
             text-align: center;
-            position: relative;
         }
-
         .header-tag {
             background-color: rgba(255, 255, 255, 0.2);
             padding: 0.25rem 1rem;
@@ -58,1819 +46,456 @@
             font-size: 0.9rem;
             display: inline-block;
             margin-bottom: 1rem;
-            letter-spacing: 0.05em;
         }
+        header h1 { margin: 0; font-size: 1.8rem; font-weight: 700; line-height: 1.4; }
 
-        header h1 {
-            margin: 0;
-            font-size: 1.8rem;
-            line-height: 1.4;
-            font-weight: 700;
-        }
-        
-        .header-info {
-            margin-top: 1.5rem;
-            display: flex;
-            justify-content: center;
-            align-items: center; /* 縦方向中央揃え */
-            gap: 1.5rem;
-            font-weight: bold;
-            flex-wrap: wrap;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 50px; /* 楕円形にする */
-            transition: all 0.3s ease;
-        }
-        
-        /* 湘南キャンパスモード（背景赤・文字白） */
-        .shonan-mode {
-            background-color: var(--shonan-color);
-            color: white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        @keyframes popIn {
-            0% { transform: scale(0.9); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        /* 時間注意アラート */
-        .time-alert {
-            display: inline-block;
-            background-color: #ffeb3b; /* 黄色背景 */
-            color: #d32f2f; /* 赤文字 */
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            margin-left: 8px;
-            font-weight: bold;
-            vertical-align: middle;
-            animation: flash 2s infinite;
-        }
-        
-        @keyframes flash {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
-        }
-
-        /* --- 日付切り替えタブ --- */
-        .tabs-container {
+        /* --- 予約ボタンエリア --- */
+        .reserve-area {
             max-width: 1000px;
-            margin: -2.5rem auto 2rem auto; /* ヘッダーに食い込ませる */
+            margin: -2.5rem auto 2rem auto;
             padding: 0 1rem;
-            position: relative;
-            z-index: 10;
-        }
-
-        .tabs {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            overflow-x: auto;
-            padding-bottom: 10px; /* スクロールバーの干渉を防ぐ */
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none; /* Firefox */
-        }
-        .tabs::-webkit-scrollbar {
-            display: none; /* Chrome/Safari */
-        }
-
-        .tab-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid transparent;
-            border-radius: 50px;
-            padding: 0.8rem 1.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            color: var(--text-light);
-            cursor: pointer;
-            white-space: nowrap;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            min-width: 100px;
-            text-align: center;
-        }
-
-        .tab-btn.active {
-            background: var(--accent);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(245, 124, 0, 0.3);
-        }
-
-        .tab-btn:hover:not(.active) {
-            background: white;
-            transform: translateY(-2px);
-        }
-
-        .tab-date {
-            font-size: 1.1em;
-            display: block;
-        }
-        .tab-dow {
-            font-size: 0.8em;
-            opacity: 0.9;
-        }
-
-
-        /* --- メインコンテンツ --- */
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 0 1.5rem 3rem 1.5rem;
-        }
-
-        /* --- スケジュール --- */
-        .section-box {
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 3rem;
-            box-shadow: var(--shadow);
-        }
-
-        h2.section-title {
-            font-size: 1.5rem;
-            color: var(--primary);
-            border-left: 5px solid var(--accent);
-            padding-left: 1rem;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-        }
-
-        .timeline {
-            position: relative;
-            border-left: 2px solid #e5e7eb;
-            margin-left: 10px;
-            padding-left: 20px;
-        }
-
-        .timeline-item {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-
-        .timeline-item:last-child {
-            margin-bottom: 0;
-        }
-
-        .timeline-item::before {
-            content: "";
-            position: absolute;
-            left: -26px;
-            top: 6px;
-            width: 10px;
-            height: 10px;
-            background: var(--primary);
-            border-radius: 50%;
-            border: 2px solid white;
-            box-shadow: 0 0 0 2px var(--primary);
-        }
-
-        .timeline-time {
-            font-weight: bold;
-            color: var(--primary);
-            font-size: 0.95rem;
-        }
-
-        .timeline-content {
-            font-weight: 500;
-        }
-
-        /* --- 企業一覧 --- */
-        .grid-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .grid-header h2 {
-            font-size: 1.8rem;
-            color: var(--text);
-            margin: 0;
-        }
-        
-        .current-date-display {
-            color: var(--primary);
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            display: block;
-            font-size: 1.2rem;
-        }
-        
-        .grid-header p {
-            color: var(--text-light);
-            margin-top: 0.5rem;
-        }
-
-        .company-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1.5rem;
-        }
-        
-        /* データなし表示 */
-        .no-data {
-            text-align: center;
-            padding: 3rem;
-            background: #fff;
-            border-radius: 12px;
-            grid-column: 1 / -1;
-            color: var(--text-light);
-        }
-
-        /* --- カードデザイン --- */
-        .card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
             position: relative;
+            z-index: 20;
+        }
+        .btn-reserve {
             display: flex;
             flex-direction: column;
-            border: 1px solid #eee;
-            overflow: hidden;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--primary);
-        }
-        
-        /* 詳しく見るオーバーレイ */
-        .card::after {
-            content: "詳しく見る";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 86, 179, 0.9);
-            color: white;
-            display: flex;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
+            border-radius: 12px;
+            text-decoration: none;
             font-weight: bold;
-            font-size: 1.2rem;
-            opacity: 0;
-            transition: opacity 0.3s;
-            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+            text-align: center;
         }
-        
-        .card:active::after {
-            opacity: 0.1;
-        }
+        .btn-reserve:hover { transform: translateY(-3px); opacity: 0.9; }
+        .btn-tama { background: white; color: var(--tama-color); border: 2px solid var(--tama-color); }
+        .btn-shonan { background: white; color: var(--shonan-color); border: 2px solid var(--shonan-color); }
+        .btn-reserve .campus-name { font-size: 0.8rem; opacity: 0.8; }
+        .btn-reserve .btn-label { font-size: 1.1rem; }
 
-        .industry-label {
-            font-size: 0.75rem;
+        /* --- タブ --- */
+        .tabs-container { max-width: 1000px; margin: 0 auto 1.5rem auto; padding: 0 1rem; }
+        .tabs { display: flex; justify-content: center; gap: 0.4rem; overflow-x: auto; padding-bottom: 10px; }
+        .tab-btn {
+            background: #e0e0e0;
+            border: none;
+            border-radius: 50px;
+            padding: 0.6rem 1.2rem;
+            font-size: 0.9rem;
             font-weight: bold;
             color: #666;
-            background: #f3f4f6;
-            padding: 4px 10px;
-            border-radius: 4px;
-            align-self: flex-start;
-            margin-bottom: 0.75rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
         }
+        .tab-btn.active { background: var(--accent); color: white; box-shadow: 0 4px 10px rgba(245, 124, 0, 0.3); }
 
-        .company-name {
-            font-size: 1.25rem;
-            font-weight: bold;
-            color: var(--primary);
-            margin-bottom: 0.5rem;
-            line-height: 1.3;
-        }
+        /* --- コンテンツ --- */
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem 3rem 1.5rem; }
+        .section-box { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow); }
+        h2.section-title { font-size: 1.2rem; color: var(--primary); border-left: 5px solid var(--accent); padding-left: 1rem; margin-top: 0; margin-bottom: 1rem; }
 
-        .badges-container {
-            display: flex;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
+        .timeline { position: relative; border-left: 2px solid #eee; margin-left: 10px; padding-left: 20px; }
+        .timeline-item { margin-bottom: 1rem; font-size: 0.95rem; }
+        .timeline-time { font-weight: bold; color: var(--primary); margin-right: 10px; }
 
-        .badge {
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-weight: bold;
+        /* --- 企業グリッド --- */
+        .company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+        .card {
+            background: white; border-radius: 12px; padding: 1.5rem; border: 1px solid #eee; box-shadow: var(--shadow);
+            cursor: pointer; transition: 0.3s; display: flex; flex-direction: column;
         }
-
-        .badge-ob {
-            background-color: #fff8e1;
-            color: #b7791f;
-            border: 1px solid #f6e05e;
-        }
-
-        .badge-loc {
-            background-color: #e3f2fd;
-            color: #0d47a1;
-            border: 1px solid #bbdefb;
-        }
-        
-        /* 留学生バッジ */
-        .badge-intl {
-            background-color: #e8f5e9;
-            color: var(--intl-color);
-            border: 1px solid #a5d6a7;
-        }
-
-        .catchphrase {
-            font-size: 0.95rem;
-            color: var(--text);
-            margin-bottom: 1.5rem;
-            font-weight: bold;
-            flex-grow: 1;
-            white-space: pre-wrap;
-        }
-
-        .card-footer {
-            margin-top: auto;
-            text-align: right;
-        }
-
-        .btn-text {
-            color: var(--primary);
-            font-weight: bold;
-            font-size: 0.9rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-        }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .industry-label { font-size: 0.7rem; font-weight: bold; background: #f0f2f5; padding: 3px 8px; border-radius: 4px; align-self: flex-start; margin-bottom: 0.5rem; }
+        .company-name { font-size: 1.2rem; font-weight: bold; color: var(--primary); margin-bottom: 0.5rem; }
+        .badge { font-size: 0.7rem; padding: 2px 6px; border-radius: 4px; font-weight: bold; margin-right: 4px; }
+        .badge-ob { background: #fff8e1; color: #b7791f; border: 1px solid #f6e05e; }
+        .badge-intl { background: #e8f5e9; color: var(--intl-color); border: 1px solid #a5d6a7; }
 
         /* --- モーダル --- */
         .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(2px);
-            padding: 1rem;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7);
+            display: flex; align-items: center; justify-content: center; z-index: 1000;
+            opacity: 0; visibility: hidden; transition: 0.3s; padding: 1rem;
         }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-container {
-            background: white;
-            width: 100%;
-            max-width: 650px;
-            border-radius: 16px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            transform: scale(0.95);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            max-height: 90vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .modal-overlay.active .modal-container {
-            transform: scale(1);
-        }
-
-        .modal-header {
-            padding: 1.5rem 2rem;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            background-color: #fafafa;
-        }
-
-        .modal-title-group h3 {
-            margin: 0;
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-container { background: white; width: 100%; max-width: 600px; border-radius: 16px; overflow: hidden; max-height: 90vh; display: flex; flex-direction: column; }
         
-        .modal-industry {
-            font-size: 0.85rem;
-            color: var(--text-light);
-            margin-top: 0.25rem;
-            display: block;
-        }
+        /* キャンパス別ヘッダー */
+        .modal-campus-info { padding: 1rem 1.5rem; color: white; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
+        .info-tama { background: var(--tama-color); }
+        .info-shonan { background: var(--shonan-color); }
 
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 2rem;
-            line-height: 1;
-            color: #999;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 1rem;
-        }
-        .close-btn:hover { color: var(--text); }
+        .modal-header { padding: 1.5rem; border-bottom: 1px solid #eee; }
+        .modal-body { padding: 1.5rem; overflow-y: auto; }
+        .detail-item { margin-bottom: 1.2rem; }
+        .detail-label { font-weight: bold; color: var(--accent); font-size: 0.9rem; margin-bottom: 0.3rem; display: block; }
+        .detail-content { font-size: 0.95rem; white-space: pre-wrap; margin: 0; }
 
-        .modal-body {
-            padding: 2rem;
-            overflow-y: auto;
-        }
+        .modal-footer { padding: 1.2rem; border-top: 1px solid #eee; text-align: center; background: #f9f9f9; }
+        .btn-hp { display: inline-block; background: var(--primary); color: white; padding: 0.6rem 2rem; border-radius: 50px; text-decoration: none; font-weight: bold; }
 
-        .detail-section {
-            margin-bottom: 1.5rem;
-        }
-
-        .detail-title {
-            font-size: 0.9rem;
-            color: var(--accent);
-            font-weight: bold;
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .detail-text {
-            font-size: 1rem;
-            white-space: pre-wrap; /* 改行を維持 */
-            margin: 0;
-        }
-
-        .modal-footer {
-            padding: 1.5rem;
-            border-top: 1px solid #eee;
-            text-align: center;
-            background-color: #fafafa;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            background-color: var(--primary);
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            box-shadow: 0 4px 6px rgba(0, 86, 179, 0.3);
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            background-color: var(--primary-dark);
-        }
-
-        /* --- 注意書き --- */
-        .notice-box {
-            background-color: #fff8e1;
-            border: 1px solid #ffe082;
-            color: #856404;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 3rem;
-            font-size: 0.9rem;
-        }
-
-        /* --- 全参加企業リスト --- */
-        .all-companies-section {
-            margin-top: 4rem;
-            background: white;
-            border-radius: 16px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .search-box {
-            margin-bottom: 1.5rem;
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .search-input {
-            flex-grow: 1;
-            padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-
-        .search-select {
-            padding: 0.8rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-            background-color: white;
-        }
-
-        .company-list-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .company-list-table th, 
-        .company-list-table td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #eee;
-        }
+        /* --- 全社検索・一覧 --- */
+        .all-list-section { margin-top: 3rem; background: white; padding: 2rem; border-radius: 16px; box-shadow: var(--shadow); }
+        .filter-box { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+        .search-input { flex: 1; min-width: 200px; padding: 0.6rem; border: 1px solid #ccc; border-radius: 8px; }
+        .select-input { padding: 0.6rem; border: 1px solid #ccc; border-radius: 8px; background: white; }
+        .intl-filter-label { font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; gap: 0.4rem; background: #f8f9fa; padding: 0.5rem 0.8rem; border-radius: 8px; border: 1px solid #ccc; }
         
-        /* 留学生列の中央揃え */
-        .company-list-table td.text-center,
-        .company-list-table th.text-center {
-            text-align: center;
-        }
-        
-        .intl-mark {
-            color: var(--intl-color);
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
+        .all-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .all-table th, .all-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: left; }
+        .all-table th { background: #f8f9fa; color: #666; font-weight: bold; }
+        .all-table tr:hover { background: #f1f7ff; cursor: pointer; }
 
-        .company-list-table th {
-            background-color: #f8f9fa;
-            color: var(--text-light);
-            font-weight: bold;
-            white-space: nowrap;
-        }
-
-        .company-list-table tr:hover {
-            background-color: #f0f7ff;
-            cursor: pointer;
-        }
-
-        .list-date-badge {
+        /* 日付バッジ（色分け） */
+        .date-badge {
             display: inline-block;
             padding: 2px 8px;
             border-radius: 4px;
             font-size: 0.8rem;
             font-weight: bold;
             color: white;
-            background-color: var(--text-light);
+            background-color: #999;
+            white-space: nowrap;
         }
-        
-        /* 日程別の色設定 */
-        .list-date-badge.d-04 { background-color: var(--primary); } /* 2/4 (青) */
-        .list-date-badge.d-05 { background-color: #00897b; } /* 2/5 (緑/ティール) */
-        .list-date-badge.d-09 { background-color: var(--shonan-color); } /* 2/9 湘南 (赤) */
-        .list-date-badge.d-10 { background-color: #f57c00; } /* 2/10 湘南 (オレンジ) */
-        .list-date-badge.d-25 { background-color: #7b1fa2; } /* 2/25 (紫) */
-        .list-date-badge.d-26 { background-color: #c2185b; } /* 2/26 (ピンク) */
+        .date-badge.d-04 { background-color: var(--primary); }
+        .date-badge.d-05 { background-color: #00897b; }
+        .date-badge.d-09 { background-color: var(--shonan-color); }
+        .date-badge.d-10 { background-color: #f57c00; }
+        .date-badge.d-25 { background-color: #7b1fa2; }
+        .date-badge.d-26 { background-color: #c2185b; }
 
-        /* --- スマホ調整 --- */
+        .intl-mark { color: var(--intl-color); font-weight: bold; font-size: 1.1rem; }
+
         @media (max-width: 600px) {
+            .reserve-area { grid-template-columns: 1fr; }
             header h1 { font-size: 1.4rem; }
-            .header-info { flex-direction: column; gap: 0.5rem; }
-            .modal-container { height: 100vh; max-height: 100vh; border-radius: 0; }
-            .modal-header { padding: 1rem; }
-            .modal-body { padding: 1.5rem 1rem; }
-            .tabs { justify-content: flex-start; padding-left: 0.5rem; padding-right: 0.5rem; }
-            
-            .company-list-table th:nth-child(2), /* 業界列を隠す */
-            .company-list-table td:nth-child(2) {
-                display: none;
-            }
-            
-            /* スマホでの留学生列調整 */
-            .company-list-table th:nth-child(4), 
-            .company-list-table td:nth-child(4) {
-                padding: 0.5rem;
-                font-size: 0.8rem;
-            }
-            
-            .search-box { flex-direction: column; }
+            .company-grid { grid-template-columns: 1fr; }
+            .all-table th:nth-child(2), .all-table td:nth-child(2) { display: none; }
         }
-        
-        .icon {
-            width: 1.2em;
-            height: 1.2em;
-            vertical-align: middle;
-            fill: currentColor;
-        }
-        
-        /* 隠すクラス（詳細がない日用） */
+
         .hidden { display: none; }
     </style>
 </head>
 <body>
 
 <header>
-    <span class="header-tag">2027卒生対象</span>
+    <span class="header-tag">2027年卒対象</span>
     <h1>学内業界研究セミナー</h1>
-    <div class="header-info">
-        <div id="location-container" class="info-item">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-            <span id="location-display">多摩大学 多摩キャンパス</span>
-        </div>
-        <div class="info-item">
-            <svg class="icon" viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-            <div>
-                <span id="time-display">12:45 ～ 15:30</span>
-                <span id="time-alert" class="time-alert" style="display:none;">※開始時間注意</span>
-            </div>
-        </div>
-    </div>
 </header>
 
-<!-- 日付選択タブ -->
+<!-- 参加予約ボタンエリア -->
+<div class="reserve-area">
+    <a href="https://forms.gle/TK9RHq2ANCi6xCm86" target="_blank" class="btn-reserve btn-tama">
+        <span class="campus-name">多摩キャンパス 予約</span>
+        <span class="btn-label">2/4, 5, 25, 26 申込 ↗</span>
+    </a>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSecObAvJgmsYfBrit6qkD0oxTTW9Bv6bvkNiBRwDkAACGsJBA/viewform?usp=dialog" target="_blank" class="btn-reserve btn-shonan">
+        <span class="campus-name">湘南キャンパス 予約</span>
+        <span class="btn-label">2/9, 10 申込 ↗</span>
+    </a>
+</div>
+
+<!-- 日付タブ -->
 <div class="tabs-container">
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchDate('2026-02-04')">
-            <span class="tab-date">2/4</span>
-            <span class="tab-dow">(水)</span>
-        </button>
-        <button class="tab-btn" onclick="switchDate('2026-02-05')">
-            <span class="tab-date">2/5</span>
-            <span class="tab-dow">(木)</span>
-        </button>
-        <button class="tab-btn" onclick="switchDate('2026-02-09')">
-            <span class="tab-date">2/9</span>
-            <span class="tab-dow">(月)</span>
-        </button>
-        <button class="tab-btn" onclick="switchDate('2026-02-10')">
-            <span class="tab-date">2/10</span>
-            <span class="tab-dow">(火)</span>
-        </button>
-        <button class="tab-btn" onclick="switchDate('2026-02-25')">
-            <span class="tab-date">2/25</span>
-            <span class="tab-dow">(水)</span>
-        </button>
-        <button class="tab-btn" onclick="switchDate('2026-02-26')">
-            <span class="tab-date">2/26</span>
-            <span class="tab-dow">(木)</span>
-        </button>
+    <div id="tab-list" class="tabs">
+        <button class="tab-btn active" onclick="switchDate('2026-02-04')">2/4(水)</button>
+        <button class="tab-btn" onclick="switchDate('2026-02-05')">2/5(木)</button>
+        <button class="tab-btn" onclick="switchDate('2026-02-09')">2/9(月)</button>
+        <button class="tab-btn" onclick="switchDate('2026-02-10')">2/10(火)</button>
+        <button class="tab-btn" onclick="switchDate('2026-02-25')">2/25(水)</button>
+        <button class="tab-btn" onclick="switchDate('2026-02-26')">2/26(木)</button>
     </div>
 </div>
 
 <div class="container">
-
-    <!-- スケジュール (JSで書き換え) -->
+    <!-- 当日の案内 -->
     <div class="section-box">
-        <h2 class="section-title">当日のタイムスケジュール</h2>
-        <div id="timeline-container" class="timeline">
-            <!-- JSで生成 -->
+        <h2 class="section-title">当日のご案内</h2>
+        <div id="day-info" style="margin-bottom: 1rem; padding: 12px; border-radius: 8px; font-weight: bold; text-align: center; font-size: 1.1rem;">
+            <!-- JS -->
+        </div>
+        <div id="timeline" class="timeline">
+            <!-- JS -->
         </div>
     </div>
 
-    <!-- 企業一覧 -->
-    <div class="grid-header">
-        <span id="display-date" class="current-date-display">2月4日(水)</span>
-        <h2>参加企業一覧</h2>
-        <p>気になる企業をタップして詳細をチェック！</p>
-    </div>
+    <!-- 企業カード一覧 -->
+    <h2 id="display-date-label" style="text-align:center; color:var(--primary); margin:2.5rem 0 1.5rem 0; font-size: 1.5rem;"></h2>
+    <div id="company-grid" class="company-grid"></div>
 
-    <div id="company-grid" class="company-grid">
-        <!-- JSでカードを生成 -->
-    </div>
-
-    <!-- 全参加企業リスト -->
-    <div class="all-companies-section">
+    <!-- 全社検索・一覧 -->
+    <div class="all-list-section">
         <h2 class="section-title">全日程 参加企業リスト (検索・絞り込み)</h2>
-        <div class="search-box">
+        <div class="filter-box">
             <input type="text" id="search-input" class="search-input" placeholder="企業名で検索..." oninput="filterList()">
-            <select id="industry-filter" class="search-select" onchange="filterList()">
-                <option value="">全業界</option>
-                <!-- JSで選択肢生成 -->
+            <select id="industry-filter" class="select-input" onchange="filterList()">
+                <option value="">全業界を表示</option>
+                <!-- JSで業界リストを生成 -->
             </select>
-            <select id="date-filter" class="search-select" onchange="filterList()">
-                <option value="">全日程</option>
-                <option value="2026-02-04">2/4 (水)</option>
-                <option value="2026-02-05">2/5 (木)</option>
-                <option value="2026-02-09">2/9 (月) 湘南</option>
-                <option value="2026-02-10">2/10 (火) 湘南</option>
-                <option value="2026-02-25">2/25 (水)</option>
-                <option value="2026-02-26">2/26 (木)</option>
-            </select>
-            <!-- 留学生フィルター追加 -->
-            <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer; background:#fff; padding:0 10px; border-radius:8px; border:1px solid #ccc;">
+            <label class="intl-filter-label">
                 <input type="checkbox" id="intl-filter" onchange="filterList()"> 留学生歓迎のみ
             </label>
         </div>
-        <table class="company-list-table">
+        <table class="all-table">
             <thead>
                 <tr>
-                    <th>日程</th>
+                    <th style="width: 80px;">日程</th>
                     <th>業界</th>
                     <th>企業名</th>
-                    <th class="text-center">留学生</th>
+                    <th style="width: 60px; text-align: center;">留学生</th>
                 </tr>
             </thead>
             <tbody id="all-companies-body">
-                <!-- JSで生成 -->
+                <!-- JS -->
             </tbody>
         </table>
     </div>
 
-    <!-- 注意事項 -->
-    <div class="notice-box">
-        <h3 style="margin-top:0; font-size:1.1rem;">【参加の前に】</h3>
-        <ul style="padding-left:1.5rem; margin-bottom:0;">
-            <li>携帯電話は電源OFFまたはマナーモードに設定してください。</li>
-            <li>受付にて訪問カード（複写式）の記入が必要です。1枚目は受付へ、残りは企業担当者へ渡してください。</li>
-            <li>企業プロフィールの情報は任意でお聞きしたものです。詳細はHPなどで必ず確認しましょう。</li>
-        </ul>
+    <!-- 持ち物チェックリスト -->
+    <div class="section-box" style="margin-top:3rem; background:#e3f2fd; border:1px solid #90caf9;">
+        <h3 style="margin-top:0; font-size:1rem; color:var(--primary);">【当日の持ち物チェック】</h3>
+        <label style="display:block; font-size:0.9rem; margin-bottom:5px;"><input type="checkbox"> 訪問カード（事前記入分、または当日受付で配布）</label>
+        <label style="display:block; font-size:0.9rem; margin-bottom:5px;"><input type="checkbox"> 筆記用具・メモ帳</label>
+        <label style="display:block; font-size:0.9rem;"><input type="checkbox"> スマートフォン（この画面をいつでも出せるように！）</label>
     </div>
 </div>
 
-<!-- モーダルウィンドウ -->
-<div id="modal" class="modal-overlay" onclick="closeModal(event)">
+<!-- モーダル詳細 -->
+<div id="modal" class="modal-overlay" onclick="closeModal()">
     <div class="modal-container" onclick="event.stopPropagation()">
+        <div id="modal-campus-bar" class="modal-campus-info">
+            <span id="modal-campus-name"></span>
+            <span id="modal-dress-code"></span>
+        </div>
         <div class="modal-header">
-            <div class="modal-title-group">
-                <h3 id="modal-name">企業名</h3>
-                <span id="modal-industry" class="modal-industry">業界名</span>
-            </div>
-            <button class="close-btn" onclick="closeModal(event)">&times;</button>
+            <h3 id="modal-name" style="margin:0; color:var(--primary); font-size:1.4rem;"></h3>
+            <span id="modal-industry" class="industry-label" style="margin-top:0.5rem;"></span>
+            <div id="modal-badges" style="margin-top:0.5rem;"></div>
         </div>
-        
         <div class="modal-body">
-            <div id="modal-badges" style="margin-bottom:1.5rem; display:flex; gap:0.5rem;"></div>
-
-            <div class="detail-section" id="sec-business">
-                <div class="detail-title">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/></svg>
-                    事業内容
-                </div>
-                <p id="modal-business" class="detail-text"></p>
+            <div class="detail-item">
+                <span class="detail-label">事業内容</span>
+                <p id="modal-business" class="detail-content"></p>
             </div>
-
-            <div class="detail-section" id="sec-person">
-                <div class="detail-title">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-                    求める人物像
-                </div>
-                <p id="modal-person" class="detail-text"></p>
+            <div class="detail-item">
+                <span class="detail-label">求める人物像</span>
+                <p id="modal-person" class="detail-content"></p>
             </div>
-
-            <div class="detail-section" id="sec-pr">
-                <div class="detail-title">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M20 6h-2.18c.11-.31.18-.65.18-1 0-1.66-1.34-3-3-3-1.05 0-1.96.54-2.5 1.35l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76 13.38 12 15 10.83 12.92 8H20v6z"/></svg>
-                    PRポイント
-                </div>
-                <p id="modal-pr" class="detail-text"></p>
+            <div class="detail-item">
+                <span class="detail-label">PRポイント / 詳細</span>
+                <p id="modal-pr" class="detail-content"></p>
             </div>
-
-            <div class="detail-section" id="sec-job">
-                <div class="detail-title">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-                    募集・勤務地
-                </div>
-                <p id="modal-job" class="detail-text"></p>
+            <div class="detail-item">
+            
+                <span class="detail-label">募集職種・勤務地</span>
+                <p id="modal-job" class="detail-content"></p>
             </div>
-
         </div>
-
         <div class="modal-footer">
-            <a id="modal-link" href="#" target="_blank" class="btn-primary">
-                企業ホームページを見る
-                <span style="font-size:0.8em; margin-left:5px;">↗</span>
-            </a>
+            <a id="modal-link" href="#" target="_blank" class="btn-hp">企業ホームページ ↗</a>
+            <button onclick="closeModal()" style="display:block; margin:1rem auto 0 auto; background:none; border:none; color:#999; text-decoration:underline; cursor:pointer;">閉じる</button>
         </div>
     </div>
 </div>
 
 <script>
-    // ▼ スケジュール定義 (Pattern A: 通常, Pattern B: 9・10日)
-    const schedules = {
-        "A": [
-            { time: "12:45 ～ 13:00", event: "全体挨拶・概要説明" },
-            { time: "13:00 ～ 13:30", event: "企業様紹介 (各社PRタイム)" },
-            { time: "13:40 ～ 14:10", event: "説明会 (1回目)" },
-            { time: "14:20 ～ 14:50", event: "説明会 (2回目)" },
-            { time: "15:00 ～ 15:30", event: "説明会 (3回目)" }
-        ],
-        "B": [
-            { time: "13:30 (時間厳守)", event: "全体説明" },
-            { time: "14:10 ～ 14:30", event: "企業PR" },
-            { time: "14:50 ～ 15:15", event: "説明会 (1回目)" },
-            { time: "15:25 ～ 15:50", event: "説明会 (2回目)" },
-            { time: "16:00 ～ 16:25", event: "説明会 (3回目)" }
-        ]
-    };
-    
-    // 日付ごとのスケジュールタイプと場所
-    const dateConfig = {
-        "2026-02-04": { type: "A", location: "多摩大学 多摩キャンパス" },
-        "2026-02-05": { type: "A", location: "多摩大学 多摩キャンパス" },
-        "2026-02-09": { type: "B", location: "多摩大学 湘南キャンパス" },
-        "2026-02-10": { type: "B", location: "多摩大学 湘南キャンパス" },
-        "2026-02-25": { type: "A", location: "多摩大学 多摩キャンパス" },
-        "2026-02-26": { type: "A", location: "多摩大学 多摩キャンパス" }
-    };
-
-    // ▼ 日付ごとの企業データ
+    // 企業データ（フルボリューム復元版）
     const seminarData = {
         "2026-02-04": [
-            {
-                name: "アイサンテクノロジー株式会社",
-                industry: "ソフトウェア・IT",
-                catchphrase: "技術力とチャレンジ精神でより良い未来を",
-                business: "1. 測量業・土木建設業向けCADソフトウェアの開発、販売およびサポート\n2. 高精度三次元地図データの作成および販売\n3. 計測機器や自動運転システムの販売",
-                job: "営業職",
-                location: "神奈川県 / 愛知県",
-                person: "・新しい知識・技術や知らないことに関して好奇心がある人\n・仲間と協力し熱意をもって仕事に取り組むことができる人",
-                pr: "「測量CADシステムの開発・販売」そして「自動運転サービスの提供」を通じて、より良い未来の社会インフラの発展に貢献するIT企業です。",
-                alumni: 2,
-                international: false // ★サンプル
-            },
-            {
-                name: "相田化学工業株式会社",
-                industry: "非鉄金属製造業",
-                catchphrase: "貴金属リサイクルと産業廃棄物の適正処理",
-                business: "金、銀、プラチナなどの貴金属の回収・精製と産業廃棄物の適正処理を柱に事業を展開。\n・貴金属粘土(アートクレイ)の製造、販売、教室運営など",
-                job: "生産職 / 分析職 / 営業職",
-                location: "本社(東京都府中市)ほか",
-                person: "・健康であること\n・プラス思考であること\n・チャレンジ精神をもっていること",
-                pr: "創業63年目の貴金属リサイクル企業です。100年企業を目指し、健康推進企業として社員が健康に活躍できる職場環境を整えています。",
-                alumni: 1,
-                international: false
-            },
-            {
-                name: "京王電鉄株式会社",
-                industry: "運輸業",
-                catchphrase: "あなたとあたらしいあしたへ",
-                business: "・鉄道事業\n・土地、建物の賃貸業・販売 など",
-                job: "①エキスパート職(乗務員候補)\n②エキスパート職(技術員)",
-                location: "東京都 / 神奈川県",
-                person: "・接客や笑顔に自信がある方\n・法令・規則を遵守できる方",
-                pr: "グループ理念である「信頼のトップブランド」の確立のため、鉄道事業を中心に沿線価値向上につながる生活関連サービスを積極的に提供しています。",
-                alumni: 7,
-                international: true
-            },
-            {
-                name: "スズキ販売会社グループ",
-                industry: "自動車販売",
-                catchphrase: "飾らない自分で、お客様の人生を飾ろう",
-                business: "1. 軽自動車、小型自動車等の販売\n2. 自動車の点検、車検、修理\n3. 中古車の販売、買取\n4. 保険代理業務",
-                job: "営業職",
-                location: "神奈川県内（平塚、小田原、厚木など）",
-                person: "・人と話すことが好きな人\n・関係構築を大切にできる人",
-                pr: "「小さなクルマ、大きな未来。」のスローガンのもとコンパクトカーの販売を強みとしております。",
-                alumni: 0,
-                international: true
-            },
-            {
-                name: "CSP セントラル警備保障株式会社",
-                industry: "サービス(警備)",
-                catchphrase: "セキュリティで、未来を描け",
-                business: "・常駐警備\n・機械警備\n・輸送警備\n・機器販売及び工事（監視カメラ等）",
-                job: "警務職 / 一般職",
-                location: "首都エリアほか",
-                person: "「自律型人材」：積極性・誠実さ・コミュニケーション力があり、自分で考えて行動できる人。",
-                pr: "東証プライム上場、業界大手第3位。JR東日本と業務提携！質の高いサービスを提供。",
-                alumni: 2,
-                international: false
-            },
-            {
-                name: "株式会社全労済システムズ",
-                industry: "IT",
-                catchphrase: "高度な情報サービスを提供",
-                business: "こくみん共済coop<全労済>グループのシステム開発・保守・運用管理を一貫して担うユーザー系SIer。",
-                job: "SE",
-                location: "東京都八王子市別所（転勤なし）",
-                person: "・積極性\n・誠実さ\n・コミュニケーション力",
-                pr: "社会インフラを支える使命感とやりがいのある仕事です。文理不問・未経験でも安心して成長できる環境が整っています。",
-                alumni: 3,
-                international: false
-            },
-            {
-                name: "多摩信用金庫",
-                industry: "金融業",
-                catchphrase: "たましんの仕事は、お客様の幸せづくり",
-                business: "【信用金庫法に基づく金融業務全般】\n預金、融資、為替、各種相談業務のほか、非金融面でも地域づくりを支援。",
-                job: "総合職",
-                location: "東京都多摩地域 / 神奈川県(相模原市)",
-                person: "誠実さ、向上心、主体性、地域貢献への熱意",
-                pr: "お客さまを訪問し、面談を通してお客さまの抱える悩みや叶えたい夢を把握し、課題解決を行います。",
-                alumni: 13,
-                international: false
-            },
-            {
-                name: "日本瓦斯株式会社(ニチガス)",
-                industry: "インフラ(エネルギー)",
-                catchphrase: "共創のためのプラットフォームを提供",
-                business: "ガス事業(LPガス、都市ガス)、電気事業、ガス機器販売、リフォーム事業など。",
-                job: "営業職 / SE職 / 施工管理職 / 事務職",
-                location: "関東一都六県・山梨・静岡・長野",
-                person: "失敗を恐れず、積極的に「挑戦」できる人。",
-                pr: "LPガス小売シェア関東圏内第1位。エネルギー業界に変革を起こし、新たな分野に果敢にチャレンジしていく社風があります。",
-                alumni: 3,
-                international: false
-            },
-            {
-                name: "パルシステムグループ",
-                industry: "小売業(生協)",
-                catchphrase: "変えられる明日がある",
-                business: "「商品供給事業」「共済・保険事業」「総合福祉事業」「電力事業」を展開。独自商品は約800種類。",
-                job: "総合職(供給、営業など)",
-                location: "東京・神奈川・千葉・埼玉（地域別採用）",
-                person: "様々な方の思いを受け止め寄り添える方、地域に貢献したい方、チームで働きたい方。",
-                pr: "作り手と組合員の『架け橋』となることです。商品のこだわりとそこに込められた「物語」を伝えています。",
-                alumni: 4,
-                international: true
-            },
-            {
-                name: "株式会社マルエツ",
-                industry: "小売業",
-                catchphrase: "しあわせいかつ。",
-                business: "首都圏に約300店舗を展開する食品スーパーマーケットチェーン。「マルエツ」「マルエツ プチ」「リンコス」など。",
-                job: "総合職(販売)",
-                location: "東京、神奈川、千葉、埼玉、茨城、栃木",
-                person: "1.「食」を通じてライフラインを支えたい方\n2. 人の幸せに喜びを感じられる方",
-                pr: "イオングループの食品スーパーマーケットです。髪色自由・ネイル・私服OKと、自分らしく働きたい方にオススメ。教育制度も充実。",
-                alumni: 7,
-                international: false
-            }
+            { name: "アイサンテクノロジー株式会社", industry: "IT・情報通信", catchphrase: "技術力とチャレンジ精神でより良い未来を", business: "1. 測量業・土木建設業向けCADソフトウェアの開発、販売およびサポート\n2. 高精度三次元地図データの作成および販売\n3. 計測機器や自動運転システムの販売", job: "営業職", location: "神奈川県 / 愛知県", person: "・新しい知識・技術や知らないことに関して好奇心がある人\n・仲間と協力し熱意をもって仕事に取り組むことができる人", pr: "「測量CADシステムの開発・販売」そして「自動運転サービスの提供」を通じて、より良い未来の社会インフラの発展に貢献するIT企業です。", alumni: 2, international: false, campus: "tama" },
+            { name: "相田化学工業株式会社", industry: "メーカー", catchphrase: "貴金属リサイクルと産業廃棄物の適正処理", business: "金、銀、プラチナなどの貴金属の回収・精製と産業廃棄物の適正処理を柱に事業を展開。\n・貴金属粘土(アートクレイ)の製造、販売、教室運営など", job: "生産職 / 分析職 / 営業職", location: "本社(東京都府中市)ほか", person: "・健康であること\n・プラス思考であること\n・チャレンジ精神をもっていること", pr: "創業63年目の貴金属リサイクル企業です。100年企業を目指し、健康推進企業として社員が健康に活躍できる職場環境を整えています。", alumni: 1, international: false, campus: "tama" },
+             { name: "京王電鉄株式会社", industry: "物流・運輸", catchphrase: "あなたとあたらしいあしたへ", business: "・鉄道事業\n・土地、建物の賃貸業・販売 など", job: "①エキスパート職(乗務員候補)\n②エキスパート職(技術員)", location: "東京都 / 神奈川県", person: "・接客や笑顔に自信がある方\n・法令・規則を遵守できる方", pr: "グループ理念である「信頼のトップブランド」の確立のため、鉄道事業を中心に沿線価値向上につながる生活関連サービスを積極的に提供しています。", alumni: 7, international: true, campus: "tama" }, 
+            { name: "スズキ販売会社グループ", industry: "小売・流通", catchphrase: "飾らない自分で、お客様の人生を飾ろう", business: "1. 軽自動車、小型自動車等の販売\n2. 自動車の点検、車検、修理\n3. 中古車の販売、買取\n4. 保険代理業務", job: "営業職", location: "神奈川県内（平塚、小田原、厚木など）", person: "・人と話すことが好きな人\n・関係構築を大切にできる人", pr: "「小さなクルマ、大きな未来。」のスローガンのもとコンパクトカーの販売を強みとしております。", alumni: 0, international: true, campus: "tama" },
+            { name: "CSP セントラル警備保障株式会社", industry: "生活・公共サービス", catchphrase: "セキュリティで、未来を描け", business: "・常駐警備\n・機械警備\n・輸送警備\n・機器販売及び工事（監視カメラ等）", job: "警務職 / 一般職", location: "首都エリアほか", person: "「自律型人材」：積極性・誠実さ・コミュニケーション力があり、自分で考えて行動できる人。", pr: "東証プライム上場、業界大手第3位。JR東日本と業務提携！質の高いサービスを提供。", alumni: 2, international: false, campus: "tama" },
+            { name: "株式会社全労済システムズ", industry: "IT・情報通信", catchphrase: "高度な情報サービスを提供", business: "こくみん共済coop<全労済>グループのシステム開発・保守・運用管理を一貫して担うユーザー系SIer。", job: "SE", location: "東京都八王子市別所（転勤なし）", person: "・積極性\n・誠実さ\n・コミュニケーション力", pr: "社会インフラを支える使命感とやりがいのある仕事です。文理不問・未経験でも安心して成長できる環境が整っています。", alumni: 3, international: false, campus: "tama" },
+            { name: "多摩信用金庫", industry: "金融・保険", catchphrase: "たましんの仕事は、お客様の幸せづくり", business: "【信用金庫法に基づく金融業務全般】\n預金、融資、為替、各種相談業務のほか、非金融面でも地域づくりを支援。", job: "総合職", location: "東京都多摩地域 / 神奈川県(相模原市)", person: "誠実さ、向上心、主体性、地域貢献への熱意", pr: "お客さまを訪問し、面談を通してお客さまの抱える悩みや叶えたい夢を把握し、課題解決を行います。", alumni: 13, international: false, campus: "tama" },
+            { name: "日本瓦斯株式会社(ニチガス)", industry: "物流・運輸", catchphrase: "共創のためのプラットフォームを提供", business: "ガス事業(LPガス、都市ガス)、電気事業、ガス機器販売、リフォーム事業など。", job: "営業職 / SE職 / 施工管理職 / 事務職", location: "関東一都六県・山梨・静岡・長野", person: "失敗を恐れず、積極的に「挑戦」できる人。", pr: "LPガス小売シェア関東圏内第1位。エネルギー業界に変革を起こし、新たな分野に果敢にチャレンジしていく社風があります。", alumni: 3, international: false, campus: "tama" },
+            { name: "パルシステムグループ", industry: "小売・流通", catchphrase: "変えられる明日がある", business: "「商品供給事業」「共済・保険事業」「総合福祉事業」「電力事業」を展開。独自商品は約800種類。", job: "総合職(供給、営業など)", location: "東京・神奈川・千葉・埼玉（地域別採用）", person: "様々な方の思いを受け止め寄り添える方、地域に貢献したい方、チームで働きたい方。", pr: "作り手と組合員の『架け橋』となることです。商品のこだわりとそこに込められた「物語」を伝えています。", alumni: 4, international: true, campus: "tama" },
+            { name: "株式会社マルエツ", industry: "小売・流通", catchphrase: "しあわせいかつ。", business: "首都圏に約300店舗を展開する食品スーパーマーケットチェーン。「マルエツ」「マルエツ プチ」「リンコス」など。", job: "総合職(販売)", location: "東京、神奈川、千葉、埼玉、茨城、栃木", person: "1.「食」を通じてライフラインを支えたい方\n2. 人の幸せに喜びを感じられる方", pr: "イオングループの食品スーパーマーケットです。髪色自由・ネイル・私服OKと、自分らしく働きたい方にオススメ。教育制度も充実。", alumni: 7, international: false, campus: "tama" }
         ],
-        
         "2026-02-05": [
-            {
-                name: "株式会社アクティオ",
-                industry: "物品賃貸業",
-                catchphrase: "「提案のある建設機械レンタル」",
-                business: "建設機械のレンタル・リース及び販売\n・レンサルティング事業",
-                job: "営業職、技術営業職、整備職、事務職",
-                location: "本人の希望を考慮し決定(全国)",
-                person: "「人のため、未来のため、自らの誇りにかけて行動できる人」",
-                pr: "建設機械レンタル業界売上No.1企業です。新入社員研修では約20種類の資格を取得できるため、未経験でも安心です。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "AMBL株式会社",
-                industry: "情報処理サービス",
-                catchphrase: "DXのプロフェッショナル集団",
-                business: "・クラウドネイティブ支援\n・UXデザイン支援\n・マーケティング支援",
-                job: "データサイエンティスト、SE、WEBディレクター",
-                location: "本社(赤坂)またはプロジェクト先(都内)",
-                person: "・チャレンジ精神をお持ちの方\n・チームワークを好む方\n・成長意欲がある方",
-                pr: "AIをはじめDXに必要な幅広い技術に強み。若手でも重要な案件に早期から参画可能。資格取得支援や研修も豊富です。",
-                alumni: 1,
-                international: false
-            },
-            {
-                name: "株式会社サイネックス",
-                industry: "サービス",
-                catchphrase: "地方創生のプラットフォームを担う",
-                business: "官民協働事業を拡大し、地方自治体のパートナーとして広報、地域経済活動をサポート。\n行政情報誌「わが街事典」の発行等。",
-                job: "企画提案型営業職",
-                location: "全国各地(希望考慮)",
-                person: "・コミュニケーション能力が高く、人と話すのが好きな方\n・地元に貢献したい方",
-                pr: "「自分の力で地域を活気づけたい」。そんな想いを、仕事に変えてみませんか？",
-                alumni: 1,
-                international: false
-            },
-            {
-                name: "相模鉄道株式会社",
-                industry: "運輸業",
-                catchphrase: "KEEP SO GROWING",
-                business: "相鉄グループの中核企業で、神奈川県内で鉄道事業(相鉄線)を展開。\n安全・安心・快適輸送の実現。",
-                job: "エキスパート職(乗務、技術)、総合職",
-                location: "横浜市、大和市、海老名市、藤沢市",
-                person: "「より良い未来を創りたい」等の3つの思いと、「成長する」「工夫する」等の5つの行動に共感できる人材。",
-                pr: "都心直通運転を契機とした新しい豊かさの創造に挑戦し、成長し続けていきます。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "生活協同組合コープみらい",
-                industry: "生活協同組合",
-                catchphrase: "ともにはぐくむくらしと未来",
-                business: "宅配事業・店舗事業・福祉事業・サービス事業(チケット、葬祭など)",
-                job: "宅配事業:地域担当、店舗事業:販売担当",
-                location: "千葉県・埼玉県・東京都",
-                person: "・人とコミュニケーションを取ることが好きな方\n・人から感謝される、人の役に立つ仕事がしたい方",
-                pr: "地域の方々の声を大切に人々の生活を支えていくことを大切にしている組織です。",
-                alumni: 3,
-                international: false
-            },
-            {
-                name: "フォレックス株式会社",
-                industry: "情報サービス業",
-                catchphrase: "より正確に、より早く、より多く",
-                business: "ソフトウェア受託開発、自社製ソフト開発、画像処理、データソリューション等。",
-                job: "SE・プログラマー",
-                location: "横浜事業所(横浜駅徒歩6分)",
-                person: "「より正確に、より早く、より便利に」を理解し行動できる方。チームワークを発揮できる方。",
-                pr: "新技術を積極的に取り入れ、社会を支える最先端のシステム開発に取り組んでいます。文理不問、研修制度あり。",
-                alumni: 1,
-                international: false
-            },
-            {
-                name: "フクダ電子株式会社",
-                industry: "製造業",
-                catchphrase: "医療機器で明日を創る",
-                business: "予防から在宅医療まで、幅広い医療機器の開発、製造、販売、輸出入。\n国産第1号の心電計開発企業。",
-                job: "開発職、生産技術職、販売会社技術職・営業職",
-                location: "東京、千葉、および全国の販売会社",
-                person: "・医療に対する高いモチベーションがある方\n・主体性と協調性のバランスが良い方",
-                pr: "いち早く在宅医療を全国に展開。心電計にAIを搭載した技術力が特徴です。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "富士ダイス株式会社",
-                industry: "製造業",
-                catchphrase: "ものづくりに命を吹き込む",
-                business: "超硬合金製の耐摩耗工具・金型の製造販売。\n地域に密着したダイレクトサービスを実現。",
-                job: "営業系、事務系、技術系、製造系",
-                location: "東京(本社)、福島、神奈川、愛知、大阪など",
-                person: "・チャレンジ精神のある人\n・学び続けることができる人\n・ものづくりが好きな人",
-                pr: "自動車部品、スマホ、新幹線など生活に欠かせない製品を作り出しています。耐摩耗工具の国内シェアTOP。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "横浜冷凍株式会社",
-                industry: "物流・倉庫・商社",
-                catchphrase: "豊かな食生活に貢献します",
-                business: "【食品販売】水産・畜産・農産物の卸売\n【冷蔵倉庫】貨物の保管管理、通関業務など",
-                job: "冷蔵倉庫事業 総合職/特定総合職、食品販売事業 総合職",
-                location: "全国(北海道〜鹿児島)",
-                person: "柔軟な発想力、決断力、好奇心のある方。",
-                pr: "東証プライム上場。冷蔵倉庫業界第2位。食品流通のエキスパートとして豊かな食生活を支えています。",
-                alumni: 0,
-                international: true
-            },
-            {
-                name: "株式会社ワキタCSS技術開発",
-                industry: "測量業",
-                catchphrase: "未来をはかる。",
-                business: "社会インフラの「測量」専門企業。3次元測量技術、i-Constructionへの貢献。",
-                job: "フィールドスペシャリスト(FS)、データマネジメント(DM)",
-                location: "東京本社および全国支店(FS)、東京本社(DM)",
-                person: "・チームで協力して仕事を進められる方\n・最先端の技術やドローンに興味がある方",
-                pr: "売上10億円・従業員100名超の規模を誇る測量会社。未経験からスタートした若手社員が多数活躍中。",
-                alumni: 5,
-                international: true
-            }
+            { name: "株式会社アクティオ", industry: "商社・卸売", catchphrase: "「提案のある建設機械レンタル」", business: "建設機械のレンタル・リース及び販売\n・レンサルティング事業", job: "営業職、技術営業職、整備職、事務職", location: "本人の希望を考慮し決定(全国)", person: "「人のため、未来のため、自らの誇りにかけて行動できる人」", pr: "建設機械レンタル業界売上No.1企業です。新入社員研修では約20種類の資格を取得できるため、未経験でも安心です。", alumni: 1, international: true, campus: "tama" },
+             { name: "旭情報サービス株式会社", industry: "IT・情報通信", catchphrase: "独立系の強みを活かしITインフラを支える", business: "1. ネットワーク・サーバーの構築、運用管理\n2. システム開発およびソフトウェア保守\n3. 企業のIT環境全般を支えるインフラソリューションの提供", job: "ITエンジニア / 営業職", location: "東京本社(新宿)、横浜、大阪、名古屋など", person: "・誠実で、人と人とのコミュニケーションを大切にできる方\n・IT技術に興味を持ち、自ら成長しようとする意欲のある方", pr: "東証スタンダード上場。独立系SIerとして多種多様な業界のシステムを支えています。多摩大学のOBも多数活躍しており、教育体制も充実。未経験からITプロへ。", alumni: 5, international: true, campus: "tama" },
+                     
+            { name: "株式会社サイネックス", industry: "生活・公共サービス", catchphrase: "地方創生のプラットフォームを担う", business: "官民協働事業を拡大し、地方自治体のパートナーとして広報、地域経済活動をサポート。行政情報誌「わが街事典」の発行等。", job: "企画提案型営業職", location: "全国各地(希望考慮)", person: "・コミュニケーション能力が高く、人と話すのが好きな方\n・地元に貢献したい方", pr: "「自分の力で地域を活気づけたい」。そんな想いを、仕事に変えてみませんか？", alumni: 1, international: false, campus: "tama" },
+            { name: "相模鉄道株式会社", industry: "物流・運輸", catchphrase: "KEEP SO GROWING", business: "相鉄グループの中核企業で、神奈川県内で鉄道事業(相鉄線)を展開。\n安全・安心・快適輸送の実現。", job: "エキスパート職(乗務、技術)、総合職", location: "横浜市、大和市、海老名市、藤沢市", person: "「より良い未来を創りたい」等の3つの思いと、「成長する」「工夫する」等の5つの行動に共感できる人材。", pr: "都心直通運転を契機とした新しい豊かさの創造に挑戦し、成長し続けていきます。", alumni: 1, international: true, campus: "tama" },
+            { name: "生活協同組合コープみらい", industry: "小売・流通", catchphrase: "ともにはぐくむくらしと未来", business: "宅配事業・店舗事業・福祉事業・サービス事業(チケット、葬祭など)", job: "宅配事業:地域担当、店舗事業:販売担当", location: "千葉県・埼玉県・東京都", person: "・人とコミュニケーションを取ることが好きな方\n・人から感謝される、人の役に立つ仕事がしたい方", pr: "地域の方々の声を大切に人々の生活を支えていくことを大切にしている組織です。", alumni: 3, international: false, campus: "tama" },
+            { name: "フォレックス株式会社", industry: "IT・情報通信", catchphrase: "より正確に、より早く、より多く", business: "ソフトウェア受託開発、自社製ソフト開発、画像処理、データソリューション等。", job: "SE・プログラマー", location: "横浜事業所(横浜駅徒歩6分)", person: "「より正確に、より早く、より便利に」を理解し行動できる方。チームワークを発揮できる方。", pr: "新技術を積極的に取り入れ、社会を支える最先端のシステム開発に取り組んでいます。文理不問、研修制度あり。", alumni: 1, international: false, campus: "tama" },
+            { name: "フクダ電子株式会社", industry: "メーカー", catchphrase: "医療機器で明日を創る", business: "予防から在宅医療まで、幅広い医療機器の開発、製造、販売、輸出入。\n国産第1号の心電計開発企業。", job: "開発職、生産技術職、販売会社技術職・営業職", location: "東京、千葉、および全国の販売会社", person: "・医療に対する高いモチベーションがある方\n・主体性と協調性のバランスが良い方", pr: "いち早く在宅医療を全国に展開。心電計にAIを搭載した技術力が特徴です。", alumni: 0, international: false, campus: "tama" },
+            { name: "富士ダイス株式会社", industry: "メーカー", catchphrase: "ものづくりに命を吹き込む", business: "超硬合金製の耐摩耗工具・金型の製造販売。\n地域に密着したダイレクトサービスを実現。", job: "営業系、事務系、技術系、製造系", location: "東京(本社)、福島、神奈川、愛知、大阪など", person: "・チャレンジ精神のある人\n・学び続けることができる人\n・ものづくりが好きな人", pr: "自動車部品、スマホ、新幹線など生活に欠かせない製品を作り出しています。耐摩耗工具の国内シェアTOP。", alumni: 1, international: true, campus: "tama" },
+            { name: "横浜冷凍株式会社", industry: "物流・運輸", catchphrase: "豊かな食生活に貢献します", business: "【食品販売】水産・畜産・農産物の卸売\n【冷蔵倉庫】貨物の保管管理、通関業務など", job: "冷蔵倉庫事業 総合職/特定総合職、食品販売事業 総合職", location: "全国(北海道〜鹿児島)", person: "柔軟な発想力、決断力、好奇心のある方。", pr: "東証プライム上場。冷蔵倉庫業界第2位。食品流通のエキスパートとして豊かな食生活を支えています。", alumni: 0, international: true, campus: "tama" },
+            { name: "株式会社ワキタCSS技術開発", industry: "建設・不動産・測量", catchphrase: "未来をはかる。", business: "社会インフラの「測量」専門企業。3次元測量技術、i-Constructionへの貢献。", job: "フィールドスペシャリスト(FS)、データマネジメント(DM)", location: "東京本社および全国支店(FS)、東京本社(DM)", person: "・チームで協力して仕事を進められる方\n・最先端の技術やドローンに興味がある方", pr: "売上10億円・従業員100名超の規模を誇る測量会社。未経験からスタートした若手社員が多数活躍中。", alumni: 5, international: true, campus: "tama" }
         ],
-        
         "2026-02-09": [
-            {
-                name: "株式会社伊東園ホテルズ",
-                industry: "ホテル・宿泊業",
-                catchphrase: "まずはここからはじめよう!!",
-                business: "全国50館の温泉宿を展開。温泉旅館業界の常識にとらわれない新しい手法を導入し、コストとサービスのバランスを追求。観光客に楽しんでもらえる宿泊プランの開発と運営を行っています。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "温泉旅館業界の常識にとらわれない新しい手法を導入しています。",
-                alumni: 0,
-                international: false // サンプル
-            },
-            {
-                name: "株式会社イノベイションオブメディカルサービス",
-                industry: "小売業(医療)",
-                catchphrase: "地域医療・福祉に貢献",
-                business: "車椅子や介護用ベッドなどの福祉用具レンタル・販売を中心に、住宅改修や訪問介護サービスを提供。調剤薬局の運営や治験支援も手掛け、地域の医療・福祉ニーズに対応。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "全国トップクラスの取扱商品数を誇り、幅広いサービスを展開している企業です。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "株式会社オノマシン",
-                industry: "卸売業(機械)",
-                catchphrase: "人・くらし・社会に貢献",
-                business: "作業工具や電動工具、建設土木機械など多彩な機械工具を取り扱い、工場や現場へ高品質な商品を提供。技術を核にした現場力で貢献。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "幅広い製品を揃え、技術を核にした現場力で社会に貢献しています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "かながわ信用金庫",
-                industry: "金融業",
-                catchphrase: "地域密着型の金融機関",
-                business: "神奈川県横須賀市に本店を置く協同組織金融機関。よろず相談承り処として税務・相続・健康などの相談に対応し、地域活性化プロジェクトを推進。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "地域密着型で、金融サービスだけでなく地域活性化プロジェクトも推進しています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "株式会社データサービス",
-                industry: "情報サービス業",
-                catchphrase: "多様なITソリューション",
-                business: "企業や官公庁の基幹業務システムの企画・設計・開発、クラウド導入支援、AI関連システム開発。Webシステム構築やデータエントリーサービスも提供。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "多様なITソリューションで顧客の課題解決を支援している企業です。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "株式会社東計電算",
-                industry: "情報サービス業",
-                catchphrase: "【東証STD上場】",
-                business: "業種・業務別に特化した情報システムの設計・開発・運用。製造、流通、小売、外食など多様な分野でワンストップサービスを提供。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "データセンターを活用したアウトソーシング事業やネットワーク構築も展開。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "日本ロジテム株式会社",
-                industry: "運送業・倉庫業",
-                catchphrase: "【東証STD上場】総合物流企業",
-                business: "首都圏を中心に食品、インテリア、アパレルなどを取り扱い、貨物自動車運送、倉庫・物流センター運営、不動産賃貸などを提供。東南アジアでも事業展開。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "共同配送や通販物流などの付加価値サービスで顧客を支える総合物流企業です。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "ミモザ株式会社",
-                industry: "介護サービス業",
-                catchphrase: "高齢者の幸せな暮らしを支える",
-                business: "首都圏中心にグループホーム、介護付きホーム、サ高住、デイサービス、訪問介護など多様な介護サービスを展開。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "高齢者の幸せな暮らしを支える介護事業を行っています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "株式会社横浜グランドインターコンチネンタルホテル",
-                industry: "ホテル・宿泊業",
-                catchphrase: "世界基準のおもてなし",
-                business: "パシフィコ横浜内に位置する高級ホテルを運営。国際会議やイベント参加者のビジネスニーズに対応した宿泊・レストラン・宴会・婚礼サービスを提供。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "国内外のVIPや観光客に世界基準のおもてなしを届けています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "リゾートトラスト株式会社",
-                industry: "ホテル・宿泊業",
-                catchphrase: "【東証PRM上場】",
-                business: "会員制リゾートホテルを全国に展開し、高品質な宿泊・レストランサービスを提供。ゴルフ場運営、メディカル検診、シニアレジデンス事業も手掛ける。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "多様なリゾートライフをサポートする総合リゾート事業を展開する企業です。",
-                alumni: 0,
-                international: false
-            }
+            { name: "株式会社伊東園ホテルズ", industry: "生活・公共サービス", catchphrase: "まずはここからはじめよう!!", business: "全国50館の温泉宿を展開。温泉旅館業界の常識にとらわれない新しい手法を導入し、コストとサービスのバランスを追求。観光客に楽しんでもらえる宿泊プランの開発と運営を行っています。", job: "ホテル運営・管理", location: "全国", person: "・おもてなしの心がある方\n・自ら考え行動できる方", pr: "温泉旅館業界の常識にとらわれない新しい手法を導入しています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "株式会社イノベイションオブメディカルサービス", industry: "医療・福祉", catchphrase: "地域医療・福祉に貢献", business: "車椅子や介護用ベッドなどの福祉用具レンタル・販売を中心に、住宅改修や訪問介護サービスを提供。調剤薬局の運営や治験支援も手掛け、地域の医療・福祉ニーズに対応。", job: "福祉用具専門相談員 / 事務", location: "首都圏中心", person: "・医療福祉への貢献意欲がある方", pr: "全国トップクラスの取扱商品数を誇り、幅広いサービスを展開している企業です。", alumni: 0, international: false, campus: "shonan" },
+            { name: "株式会社オノマシン", industry: "商社・卸売", catchphrase: "人・くらし・社会に貢献", business: "作業工具や電動工具、建設土木機械など多彩な機械工具を取り扱い、工場や現場へ高品質な商品を提供。技術を核にした現場力で貢献。", job: "営業職 / 事務職", location: "各地", person: "・誠実で技術に関心がある方", pr: "幅広い製品を揃え、技術を核にした現場力で社会に貢献しています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "らかながわ信用金庫", industry: "金融・保険", catchphrase: "地域密着型の金融機関", business: "神奈川県横須賀市に本店を置く協同組織金融機関。よろず相談承り処として税務・相続・健康などの相談に対応し、地域活性化プロジェクトを推進。", job: "総合職", location: "神奈川県内", person: "・地域のために働きたい意欲がある方", pr: "地域密着型で、金融サービスだけでなく地域活性化プロジェクトも推進しています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "株式会社データサービス", industry: "IT・情報通信", catchphrase: "多様なITソリューション", business: "企業や官公庁の基幹業務システムの企画・設計・開発、クラウド導入支援、AI関連システム開発。Webシステム構築やデータエントリーサービスも提供。", job: "エンジニア", location: "都内", person: "・ITで社会を支えたい方", pr: "多様なITソリューションで顧客の課題解決を支援している企業です。", alumni: 0, international: false, campus: "shonan" },
+            { name: "株式会社東計電算", industry: "IT・情報通信", catchphrase: "【東証STD上場】", business: "業種・業務別に特化した情報システムの設計・開発・運用。製造、流通、小売、外食など多様な分野でワンストップサービスを提供。", job: "SE / 営業", location: "各地", person: "・専門スキルを身につけたい意欲的な方", pr: "データセンターを活用したアウトソーシング事業やネットワーク構築も展開。", alumni: 0, international: false, campus: "shonan" },
+            { name: "日本ロジテム株式会社", industry: "物流・運輸", catchphrase: "【東証STD上場】総合物流企業", business: "首都圏を中心に食品、インテリア、アパレルなどを取り扱い、貨物自動車運送、倉庫・物流センター運営、不動産賃貸などを提供。東南アジアでも事業展開。", job: "物流管理 / 営業", location: "首都圏・海外", person: "・物流の動脈を支えたい方", pr: "共同配送や通販物流などの付加価値サービスで顧客を支える総合物流企業です。", alumni: 0, international: false, campus: "shonan" },
+            { name: "ミモザ株式会社", industry: "医療・福祉", catchphrase: "高齢者の幸せな暮らしを支える", business: "首都圏中心にグループホーム、介護付きホーム、サ高住、デイサービス、訪問介護など多様な介護サービスを展開。", job: "介護職 / 事務職", location: "首都圏", person: "・優しさと誠実さを持って接することができる方", pr: "高齢者の幸せな暮らしを支える介護事業を行っています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "横浜グランドインターコンチネンタルホテル", industry: "生活・公共サービス", catchphrase: "世界基準のおもてなし", business: "パシフィコ横浜内に位置する高級ホテルを運営。国際会議やイベント参加者のビジネスニーズに対応した宿泊・レストラン・宴会・婚礼サービスを提供。", job: "ホテル職", location: "横浜", person: "・最高のおもてなしを追求したい方", pr: "国内外のVIPや観光客に世界基準のおもてなしを届けています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "リゾートトラスト株式会社", industry: "生活・公共サービス", catchphrase: "【東証PRM上場】", business: "会員制リゾートホテルを全国に展開し、高品質な宿泊・レストランサービスを提供。ゴルフ場運営、メディカル検診、シニアレジデンス事業も手掛ける。", job: "総合職 / ホテル職", location: "全国", person: "・高品質なサービスに携わりたい方", pr: "多様なリゾートライフをサポートする総合リゾート事業を展開する企業です。", alumni: 0, international: false, campus: "shonan" }
         ],
-
         "2026-02-10": [
-            {
-                name: "インフォテックス株式会社",
-                industry: "情報サービス業",
-                catchphrase: "良いスタートを切ろう!!",
-                business: "金融・製造・流通業向けに基幹業務アプリケーションの開発・運用保守。ITコンサルティングや自社プロダクト開発も展開。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "Web・メインフレーム対応のシステム構築を強みとし、顧客の課題解決を支援しています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "神奈川三菱ふそう自動車販売株式会社",
-                industry: "卸売業(機械)",
-                catchphrase: "物流業界のニーズに応える",
-                business: "神奈川県全域で、三菱ふそう製のトラック、バス、特装車の新車・中古車販売。部品供給、車両整備、保険代理業務も展開。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "物流業界のオーダーメイドニーズに応える自動車販売企業です。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "管清工業株式会社",
-                industry: "上下水道維持",
-                catchphrase: "都市環境を支える",
-                business: "下水道管路施設の清掃、調査、補修、維持管理。排水・空調設備の設計施工、技術者派遣、ロボット開発も手掛ける。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "最新技術を活用し、安全で快適な都市環境を支えるインフラ維持管理事業を行っています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "国際自動車株式会社",
-                industry: "運輸業",
-                catchphrase: "ホスピタリティあふれる移動空間",
-                business: "タクシー・ハイヤー・バス事業を中心に、保険、整備、自動車管理請負などを展開。東京・横浜エリアで多様な旅客運送サービスを提供。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "ホスピタリティあふれる移動空間を創出している企業です。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "コムテック株式会社",
-                industry: "情報サービス業",
-                catchphrase: "ITとBPOの二軸展開",
-                business: "ITとBPO(ビジネス・プロセス・アウトソーシング)を展開。最適なプロセス整備とIT活用で、上流から下流まで一貫したサービスを提供。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "お客様のニーズに合わせて業務設計を行い、課題解決を支援しています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "JAさがみ",
-                industry: "複合サービス",
-                catchphrase: "地域農業の振興と生活支援",
-                business: "神奈川県内をエリアとし、金融、共済、営農指導、葬祭、不動産など多様なサービスを展開。農産物の直売所運営も。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "地域農業の振興や生活支援を総合的に行っています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "スズキ販売会社グループ",
-                industry: "小売業(自動車)",
-                catchphrase: "地域密着型のサービス",
-                business: "スズキ車の新車・中古車販売、整備・点検、部品販売、損害保険代理業。直販営業と業販営業の2軸で展開。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "地域密着型のサービスを提供しています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "相鉄ホテル株式会社",
-                industry: "ホテル・宿泊業",
-                catchphrase: "横浜ベイシェラトンホテル&タワーズ",
-                business: "横浜駅西口直結の高層ホテルを運営。客室、レストラン、バー、プールなどを備え、ビジネス・観光客に上質なサービスを提供。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "夜景を活かした上質な宿泊・飲食サービスを行う企業です。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "株式会社トヨタレンタリース神奈川",
-                industry: "物品賃貸業",
-                catchphrase: "安心で快適なモビリティ",
-                business: "神奈川県全域でトヨタ車を中心としたレンタカー・カーリース事業を展開。車両管理や保険、安全対策なども組み合わせたサービスを提供。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "法人・個人双方の多様な移動ニーズに対応しています。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "株式会社ノットグローバルホールディングス",
-                industry: "国際物流",
-                catchphrase: "一貫した国際物流サービス",
-                business: "国内外の貨物・車両輸送、海上・航空輸送、通関、保管、梱包、配送まで一貫した国際物流サービスを提供。貿易コンサルティングも。",
-                job: "",
-                location: "",
-                person: "",
-                pr: "企業や個人の多様な輸出入ニーズに応える事業を行っています。",
-                alumni: 0,
-                international: false
-            }
+            { name: "インフォテックス株式会社", industry: "IT・情報通信", catchphrase: "良いスタートを切ろう!!", business: "金融・製造・流通業向けに基幹業務アプリケーションの開発・運用保守。ITコンサルティングや自社プロダクト開発も展開。", job: "エンジニア / 営業", location: "都内", person: "・課題解決に意欲的な方", pr: "Web・メインフレーム対応のシステム構築を強みとし、顧客の課題解決を支援しています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "神奈川三菱ふそう自動車販売株式会社", industry: "商社・卸売", catchphrase: "物流業界のニーズに応える", business: "神奈川県全域で、三菱ふそう製のトラック、バス、特装車の新車・中古車販売。部品供給、車両整備、保険代理業務も展開。", job: "営業 / 整備", location: "神奈川県内", person: "・物流インフラを支える意欲のある方", pr: "物流業界のオーダーメイドニーズに応える自動車販売企業です。", alumni: 0, international: false, campus: "shonan" },
+            { name: "管清工業株式会社", industry: "建設・不動産・測量", catchphrase: "都市環境を支える", business: "下水道管路施設の清掃、調査、補修、維持管理。排水・空調設備の設計施工、技術者派遣、ロボット開発も手掛ける。", job: "技術 / 施工管理", location: "各地", person: "・環境インフラを守りたい使命感のある方", pr: "最新技術を活用し、安全で快適な都市環境を支えるインフラ維持管理事業を行っています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "国際自動車株式会社", industry: "物流・運輸", catchphrase: "ホスピタリティあふれる移動空間", business: "タクシー・ハイヤー・バス事業を中心に、保険、整備、自動車管理請負などを展開。東京・横浜エリアで多様な旅客運送サービスを提供。", job: "乗務職 / 総合職", location: "東京、横浜", person: "・ホスピタリティ精神を大切にする方", pr: "ホスピタリティあふれる移動空間を創出している企業です。", alumni: 0, international: false, campus: "shonan" },
+            { name: "コムテック株式会社", industry: "IT・情報通信", catchphrase: "ITとBPOの二軸展開", business: "ITとBPO(ビジネス・プロセス・アウトソーシング)を展開。最適なプロセス整備とIT活用で、上流から下流まで一貫したサービスを提供。", job: "エンジニア / コンサル / 営業", location: "都内", person: "・新しい価値創造に挑戦したい方", pr: "お客様のニーズに合わせて業務設計を行い、課題解決を支援しています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "JAさがみ", industry: "金融・保険", catchphrase: "地域農業の振興と生活支援", business: "神奈川県内をエリアとし、金融、共済、営農指導、葬祭、不動産など多様なサービスを展開。農産物の直売所運営も。", job: "総合職", location: "神奈川県内", person: "・農業と生活支援に熱意のある方", pr: "地域農業の振興や生活支援を総合的に行っています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "スズキ販売会社グループ", industry: "小売・流通", catchphrase: "地域密着型のサービス", business: "スズキ車の新車・中古車販売、整備・点検、部品販売、損害保険代理業。直販営業と業販営業の2軸で展開。", job: "営業職", location: "各地", person: "・身近な生活を支えたい方", pr: "地域密着型のサービスを提供しています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "相鉄ホテル株式会社", industry: "生活・公共サービス", catchphrase: "横浜ベイシェラトンホテル&タワーズ", business: "横浜駅西口直結の高層ホテルを運営。客室、レストラン、バー、プールなどを備え、ビジネス・観光客に上質なサービスを提供。", job: "ホテル職", location: "横浜", person: "・高いサービススキルを磨きたい方", pr: "夜景を活かした上質な宿泊・飲食サービスを行う企業です。", alumni: 0, international: false, campus: "shonan" },
+            { name: "株式会社トヨタレンタリース神奈川", industry: "商社・卸売", catchphrase: "安心で快適なモビリティ", business: "神奈川県全域でトヨタ車を中心としたレンタカー・カーリース事業を展開。車両管理や保険、安全対策なども組み合わせたサービスを提供。", job: "営業 / 受付", location: "神奈川県内", person: "・モビリティライフを支えたい方", pr: "法人・個人双方の多様な移動ニーズに対応しています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "株式会社ノットグローバルホールディングス", industry: "物流・運輸", catchphrase: "一貫した国際物流サービス", business: "国内外の貨物・車両輸送、海上・航空輸送、通関、保管、梱包、配送まで一貫した国際物流サービスを提供。貿易コンサルティングも。", job: "貿易実務 / 営業", location: "各地", person: "・グローバルな仕事に興味がある方", pr: "企業や個人の多様な輸出入ニーズに応える事業を行っています。", alumni: 0, international: false, campus: "shonan" }
         ],
-
         "2026-02-25": [
-            {
-                name: "上尾中央医科グループ(AMG)",
-                industry: "医療・福祉",
-                catchphrase: "地域に根ざし、心に寄り添う",
-                business: "「上尾中央総合病院」をはじめ、首都圏1都6県で28の病院、21の介護施設、教育施設等を運営。",
-                job: "医療マネジメント職(総務・人事等)、MSW",
-                location: "東京・千葉・神奈川・埼玉・山梨など",
-                person: "どんな方とも柔軟に接することができる方。",
-                pr: "事務系総合職として、資格なし・医療知識なしでもチャレンジできる環境です！",
-                alumni: 3,
-                international: true            },
-            {
-                name: "株式会社エコス",
-                industry: "小売業",
-                catchphrase: "地域性を大切にした店舗運営",
-                business: "食品スーパーマーケット・チェーンの経営。",
-                job: "総合職",
-                location: "東京・埼玉・神奈川・千葉・栃木・茨城・福島",
-                person: "人と接することが好きな方。",
-                pr: "東証プライム上場。「個店経営」で地域に根差した店づくりを実現しています。",
-                alumni: 0,
-                international: true
-            },
-            {
-                name: "コーナン商事株式会社",
-                industry: "小売業",
-                catchphrase: "地域でいちばん“ぴったり”な商品をお届け",
-                business: "ホームセンター事業、建築職人向け小売業、会員制建築資材卸売り。",
-                job: "総合職 / 地域限定職",
-                location: "近畿、関東、東海、中国、四国、九州、東北",
-                person: "主体性、協調性、柔軟性を兼ね備えた、失敗を恐れずにチャレンジできる人。",
-                alumni: 7,
-                international: true
-            },
-            {
-                name: "トヨタエルアンドエフ東京株式会社",
-                industry: "商社",
-                catchphrase: "現場にしか答えはない",
-                business: "フォークリフトの販売・レンタル、物流システム・機器の提供、車両点検・安全指導。",
-                job: "営業スタッフ(総合職)",
-                location: "都内8拠点(港、大田、江東、多摩、八王子等)",
-                person: "・チームワークを大切にできる人\n・先を読んで考え、行動できる人",
-                pr: "フォークリフトシェア59年連続No.1。物流に関する機器を取り扱う総合商社です。",
-                alumni: 2,
-                international: true
-            },
-            {
-                name: "日本駐車場開発株式会社",
-                industry: "不動産コンサル",
-                catchphrase: "HAPPY TRIANGLE",
-                business: "不稼働資産を有効活用する駐車場事業、スキー場再生、テーマパーク再生、自然エネルギー事業など。",
-                job: "総合職(駐車場コンサル営業からスタート)",
-                location: "東京(丸の内)、大阪(梅田)",
-                person: "・現状に満足せず常に挑戦し、成長を楽しめる人\n・自ら考え行動できる人",
-                pr: "社会課題をビジネスで解決する会社。若手でも積極的に挑戦させてもらえる社風です。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "日本ロジテム株式会社",
-                industry: "陸運・倉庫業",
-                catchphrase: "思いをつなぐ、ロジスティクス。",
-                business: "食品・インテリア・アパレル等の物流。3PLサービスを提供。国内および東南アジア展開。",
-                job: "総合職(物流管理、営業等)、セールスドライバー",
-                location: "首都圏中心に各営業所、海外駐在など",
-                person: "チームで仕事をする上でのコミュニケーション能力、マネジメント能力。",
-                pr: "東南アジアにも展開し、企業物流の一翼を担っています。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "東日本旅客鉄道株式会社",
-                industry: "運輸業",
-                catchphrase: "安心と感動を、未来へつなぐ",
-                business: "鉄道事業、生活サービス事業、Suica事業など。",
-                job: "総合職、エリア職(駅・乗務員、技術、土木等)",
-                location: "首都圏エリア、高崎、水戸、長野、仙台等",
-                person: "JR東日本という広大なフィールドでくらしを、世の中を、変えていきたい人。",
-                alumni: 8,
-                international: true
-            },
-            {
-                name: "株式会社ベストランス",
-                industry: "運輸・倉庫業",
-                catchphrase: "お客様へ食の安全と安心をお届けします",
-                business: "セブンイレブンへのルート配送、食材・製品配送、センター運営管理など。",
-                job: "総合職(仕分け管理、物流管理からスタート)",
-                location: "関東の配送センター(現住所付近を検討)",
-                person: "積極的にコミュニケーションが取れる方。",
-                pr: "わらべや日洋HDグループ。食の物流を担う安定成長企業です。",
-                alumni: 2,
-                international: true
-            },
-            {
-                name: "株式会社ランドコンピュータ",
-                industry: "IT・情報処理",
-                catchphrase: "Support your IT challenge",
-                business: "各種業務用システムの企画提案・設計・開発(SI、インフラ、パッケージ)。",
-                job: "SE(システムエンジニア)、法人営業職、事務職",
-                location: "東京、大阪(転勤なし)",
-                person: "優しさ、好奇心、バイタリティー、コミュニケーション。",
-                pr: "前身が学校法人であり、教育には特に力を入れています。文系出身でも安心。",
-                alumni: 3,
-                international: true
-            },
-            {
-                name: "株式会社リログループ",
-                industry: "サービス",
-                catchphrase: "企業福利厚生を総合的にサポート",
-                business: "福利厚生、借上社宅管理、海外赴任支援、賃貸管理、観光など。",
-                job: "総合職(コンサルティング営業、個人営業、事務)",
-                location: "東京、名古屋、大阪",
-                person: "「スキルよりウィル」。将来やりたいことに対してチャレンジしたい方。",
-                pr: "「今自分に何ができるかより、自分は何をやりたいのか」に背中を押してくれる会社です。",
-                alumni: 5,
-                international: true
-            }
+            { name: "上尾中央医科グループ(AMG)", industry: "医療・福祉", catchphrase: "地域に根ざし、心に寄り添う", business: "「上尾中央総合病院」をはじめ、首都圏1都6県で28の病院、21の介護施設、教育施設等を運営。", job: "医療マネジメント職(総務・人事等)、MSW", location: "東京・千葉・神奈川・埼玉・山梨など", person: "どんな方とも柔軟に接することができる方。", pr: "事務系総合職として、資格なし・医療知識なしでもチャレンジできる環境です！", alumni: 3, international: true, campus: "tama" },
+            { name: "株式会社エコス", industry: "小売・流通", catchphrase: "地域性を大切にした店舗運営", business: "食品スーパーマーケット・チェーンの経営。", job: "総合職", location: "東京・埼玉・神奈川・千葉・栃木・茨城・福島", person: "人と接することが好きな方。", pr: "東証プライム上場。「個店経営」で地域に根差した店づくりを実現しています。", alumni: 0, international: true, campus: "tama" },
+            { name: "コーナン商事株式会社", industry: "小売・流通", catchphrase: "地域でいちばん“ぴったり”な商品をお届け", business: "ホームセンター事業、建築職人向け小売業、会員制建築資材卸売り。", job: "総合職 / 地域限定職", location: "全国", person: "主体性、協調性、柔軟性を兼ね備えた、失敗を恐れずにチャレンジできる人。", alumni: 7, international: true, campus: "tama" },
+            { name: "トヨタエルアンドエフ東京株式会社", industry: "商社・卸売", catchphrase: "現場にしか答えはない", business: "フォークリフトの販売・レンタル、物流システム・機器の提供、車両点検・安全指導。", job: "営業スタッフ(総合職)", location: "都内8拠点(港、大田、江東、多摩、八王子等)", person: "・チームワークを大切にできる人\n・先を読んで考え、行動できる人", pr: "フォークリフトシェア59年連続No.1。物流に関する機器を取り扱う総合商社です。", alumni: 2, international: true, campus: "tama" },
+            { name: "日本駐車場開発株式会社", industry: "建設・不動産・測量", catchphrase: "HAPPY TRIANGLE", business: "不稼働資産を有効活用する駐車場事業、スキー場再生、テーマパーク再生、自然エネルギー事業など。", job: "総合職(駐車場コンサル営業からスタート)", location: "東京(丸の内)、大阪(梅田)", person: "・現状に満足せず常に挑戦し、成長を楽しめる人\n・自ら考え行動できる人", pr: "社会課題をビジネスで解決する会社。若手でも積極的に挑戦させてもらえる社風です。", alumni: 1, international: true, campus: "tama" },
+            { name: "東日本旅客鉄道株式会社", industry: "物流・運輸", catchphrase: "安心と感動を、未来へつなぐ", business: "鉄道事業、生活サービス事業、Suica事業など。", job: "総合職、エリア職(駅・乗務員、技術、土木等)", location: "首都圏エリア、高崎、水戸、長野、仙台等", person: "JR東日本という広大なフィールドでくらしを、世の中を、変えていきたい人。", alumni: 8, international: true, campus: "tama" },
+            { name: "株式会社ベストランス", industry: "物流・運輸", catchphrase: "お客様へ食の安全と安心をお届けします", business: "セブンイレブンへのルート配送、食材・製品配送、センター運営管理など。", job: "総合職(仕分け管理、物流管理からスタート)", location: "関東の配送センター(現住所付近を検討)", person: "積極的にコミュニケーションが取れる方。", pr: "わらべや日洋HDグループ。食の物流を担う安定成長企業です。", alumni: 2, international: true, campus: "tama" },
+            { name: "株式会社ランドコンピュータ", industry: "IT・情報通信", catchphrase: "Support your IT challenge", business: "各種業務用システムの企画提案・設計・開発(SI、インフラ、パッケージ)。", job: "SE(システムエンジニア)、法人営業職、事務職", location: "東京、大阪(転勤なし)", person: "優しさ、好奇心、バイタリティー、コミュニケーション。", pr: "前身が学校法人であり、教育には特に力を入れています。文系出身でも安心。", alumni: 3, international: true, campus: "tama" },
+            { name: "株式会社リログループ", industry: "生活・公共サービス", catchphrase: "企業福利厚生を総合的にサポート", business: "福利厚生、借上社宅管理、海外赴任支援、賃貸管理、観光など。", job: "総合職(コンサルティング営業、個人営業、事務)", location: "東京、名古屋、大阪", person: "「スキルよりウィル」。将来やりたいことに対してチャレンジしたい方。", pr: "「今自分に何ができるかより、自分は何をやりたいのか」に背中を押してくれる会社です。", alumni: 5, international: true, campus: "tama" }
         ],
-
         "2026-02-26": [
-            {
-                name: "アマノ株式会社",
-                industry: "メーカー",
-                catchphrase: "未来が求める、時間と空気を。",
-                business: "時間情報システム、パーキングシステム、環境システム等の企画・開発・製造・販売・保守。",
-                job: "技術職、営業職、企画事務職",
-                location: "全国(企画事務職は横浜)",
-                person: "・自らも変わり続けることのできる人\n・自ら考え行動できる人",
-                pr: "創業94年のBtoBメーカー。タイムレコーダーや駐車場システム等で社会を支えています。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "石川玩具株式会社",
-                industry: "商社",
-                catchphrase: "ワクワクを創造するおもちゃ業界の架け橋",
-                business: "一般玩具やゲーム、雑貨などの卸売。メーカーと小売店の架け橋。",
-                job: "営業職、企画職",
-                location: "東京、大阪、福岡、埼玉",
-                person: "・おもちゃが好きな人\n・お客様の信頼を得られる「人柄」がある人",
-                pr: "創業100年の安定経営。良い子に幸せをお届けする玩具商社です。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "オーケー株式会社",
-                industry: "小売業",
-                catchphrase: "高品質・Everyday Low Price",
-                business: "ディスカウントセンター及びディスカウント・スーパーマーケットの経営。",
-                job: "店舗スタッフ / 本社スタッフ",
-                location: "東京・神奈川・千葉・埼玉の各店舗または本社",
-                person: "社是「極めて謙虚で、極めて誠実、極めて勤勉」を体現できる方。",
-                alumni: 11,
-                international: false
-            },
-            {
-                name: "株式会社K-LINE",
-                industry: "人材派遣業",
-                catchphrase: "ニーズの数だけエキスパートがいる",
-                business: "食品工場への人材派遣(主に外国人労働者)。コンビニ製品等の製造業務。",
-                job: "派遣社員の労務管理、営業事務",
-                location: "原則として本社(四谷)",
-                person: "・学び続ける姿勢を持った方\n・外国人材と協働できる方",
-                pr: "優秀な外国人労働者を迅速に確保し、企業の生産を支えています。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "スジャータめいらくグループ",
-                industry: "食品メーカー",
-                catchphrase: "褐色の恋人",
-                business: "コーヒー用フレッシュ「スジャータ」等の製造販売。生産直販システム。",
-                job: "総合職(営業、生産技術)、一般職(品質検査)",
-                location: "営業(全国)、生産技術・検査(千葉)",
-                person: "・ポジティブで協調性のある方\n・前向きで使命感の強い方",
-                pr: "創業100周年に向け、美味しさと健康をお届けしています。",
-                alumni: 2,
-                international: false
-            },
-            {
-                name: "株式会社総合車両製作所",
-                industry: "製造業",
-                catchphrase: "TRAINS MADE FOR YOU",
-                business: "鉄道車両、貨物用コンテナ、鉄道関連製品の設計、製造、販売。",
-                job: "技術系総合職、事務系総合職",
-                location: "横浜、新潟、和歌山、東京など",
-                person: "・チームで行動できる方\n・プロフェッショナルを目指せる方",
-                pr: "JR東日本グループ。通勤車両や新幹線など様々な鉄道車両を製造しています。",
-                alumni: 0,
-                international: true
-            },
-            {
-                name: "株式会社南旺社",
-                industry: "情報通信業",
-                catchphrase: "TRUST & HARMONY",
-                business: "システム開発、保守・運用、サポート事業、コンサル事業。",
-                job: "プログラマ、システムエンジニア",
-                location: "自社(鶴見)または客先(神奈川、東京)",
-                person: "・主体性と協調性がある人\n・素直に相談できる人",
-                pr: "信頼と調和を大切にする会社。新卒の過半数が非情報系学部出身です。",
-                alumni: 1,
-                international: true
-            },
-            {
-                name: "山梨信用金庫",
-                industry: "金融業",
-                catchphrase: "あなたの、いちばんであるために。",
-                business: "信用金庫法に基づく業務全般。営業店業務、本部業務。",
-                job: "総合職(限定職種なし)",
-                location: "山梨県内全域、神奈川県相模原市",
-                person: "地元のために、地域のために働きたいとの思いを持つ方。",
-                alumni: 0,
-                international: false
-            },
-            {
-                name: "株式会社ロッテリア",
-                industry: "フードサービス",
-                catchphrase: "Always Smiles LOTTERIA",
-                business: "ハンバーガーショップの経営。フランチャイズ事業、他フード業態の経営。",
-                job: "総合職(全国社員 / 地域正社員)",
-                location: "全国または限定地域の直営店舗",
-                person: "お客様に笑顔をお届けしたい、自分も笑顔で働きたいと感じている方。",
-                alumni: 0,
-                international: true
-            },
-            {
-                name: "株式会社ランダルコーポレーション",
-                industry: "メーカー",
-                catchphrase: "RELIFE NEXT",
-                business: "医療福祉用ベッド等の製造、福祉用具のレンタル卸事業および販売。",
-                job: "営業職、事務職、設計開発職、介護職",
-                location: "本社(埼玉)・首都圏近郊",
-                person: "・探求心をもって素直に取り組める方\n・主体性をもってチャレンジしたい方",
-                pr: "設立から40年。福祉用具のリーディングカンパニーとして安定成長中。",
-                alumni: 1,
-                international: true
-            }
+            { name: "アマノ株式会社", industry: "メーカー", catchphrase: "未来が求める、時間と空気を。", business: "時間情報システム、パーキングシステム、環境システム等の企画・開発・製造・販売・保守。", job: "技術職、営業職、企画事務職", location: "全国(企画事務職は横浜)", person: "・自らも変わり続けることのできる人\n・自ら考え行動できる人", pr: "創業94年のBtoBメーカー。タイムレコーダーや駐車場システム等で社会を支えています。", alumni: 1, international: true, campus: "tama" },
+            { name: "石川玩具株式会社", industry: "商社・卸売", catchphrase: "ワクワクを創造するおもちゃ業界の架け橋", business: "一般玩具やゲーム、雑貨などの卸売。メーカーと小売店の架け橋。", job: "営業職、企画職", location: "東京、大阪、福岡、埼玉", person: "・おもちゃが好きな人\n・お客様の信頼を得られる「人柄」がある人", pr: "創業100年の安定経営。良い子に幸せをお届けする玩具商社です。", alumni: 1, international: true, campus: "tama" },
+            { name: "オーケー株式会社", industry: "小売・流通", catchphrase: "高品質・Everyday Low Price", business: "ディスカウントセンター及びディスカウント・スーパーマーケットの経営。", job: "店舗スタッフ / 本社スタッフ", location: "東京・神奈川・千葉・埼玉の各店舗または本社", person: "社是「極めて謙虚で、極めて誠実、極めて勤勉」を体現できる方。", alumni: 11, international: false, campus: "tama" },
+            { name: "株式会社K-LINE", industry: "生活・公共サービス", catchphrase: "ニーズの数だけエキスパートがいる", business: "食品工場への人材派遣(主に外国人労働者)。コンビニ製品等の製造業務。", job: "派遣社員の労務管理、営業事務", location: "原則として本社(四谷)", person: "・学び続ける姿勢を持った方\n・外国人材と協働できる方", pr: "優秀な外国人労働者を迅速に確保し、企業の生産を支えています。", alumni: 1, international: true, campus: "tama" },
+            { name: "スジャータめいらくグループ", industry: "メーカー", catchphrase: "褐色の恋人", business: "コーヒー用フレッシュ「スジャータ」等の製造販売。生産直販システム。", job: "総合職(営業、生産技術)、一般職(品質検査)", location: "営業(全国)、生産技術・検査(千葉)", person: "・ポジティブで協調性のある方\n・前向きで使命感の強い方", pr: "創業100周年に向け、美味しさと健康をお届けしています。", alumni: 2, international: false, campus: "tama" },
+            { name: "株式会社総合車両製作所", industry: "メーカー", catchphrase: "TRAINS MADE FOR YOU", business: "鉄道車両、貨物用コンテナ、鉄道関連製品の設計、製造、販売。", job: "技術系総合職、事務系総合職", location: "横浜、新潟、和歌山、東京など", person: "・チームで行動できる方\n・プロフェッショナルを目指せる方", pr: "JR東日本グループ。通勤車両や新幹線など様々な鉄道車両を製造しています。", alumni: 0, international: true, campus: "tama" },
+            { name: "株式会社南旺社", industry: "IT・情報通信", catchphrase: "TRUST & HARMONY", business: "システム開発、保守・運用、サポート事業、コンサル事業。", job: "プログラマ、システムエンジニア", location: "自社(鶴見)または客先(神奈川、東京)", person: "・主体性と協調性がある人\n・素直に相談できる人", pr: "信頼と調和を大切にする会社。新卒の過半数が非情報系学部出身です。", alumni: 1, international: true, campus: "tama" },
+            { name: "山梨信用金庫", industry: "金融・保険", catchphrase: "あなたの、いちばんであるために。", business: "信用金庫法に基づく業務全般。営業店業務、本部業務。", job: "総合職(限定職種なし)", location: "山梨県内全域、神奈川県相模原市", person: "地元のために、地域のために働きたいとの思いを持つ方。", pr: "山梨県を中心に地域経済を支える金融機関です。", alumni: 0, international: false, campus: "tama" },
+            { name: "株式会社ロッテリア", industry: "小売・流通", catchphrase: "Always Smiles LOTTERIA", business: "ハンバーガーショップの経営。フランチャイズ事業、他フード業態の経営。", job: "総合職(全国社員 / 地域正社員)", location: "全国または限定地域の直営店舗", person: "お客様に笑顔をお届けしたい、自分も笑顔で働きたいと感じている方。", alumni: 0, international: true, campus: "tama" },
+            { name: "ランダルコーポレーション", industry: "メーカー", catchphrase: "RELIFE NEXT", business: "医療福祉用ベッド等の製造、福祉用具のレンタル卸事業および販売。", job: "営業職、事務職、設計開発職、介護職", location: "本社(埼玉)・首都圏近郊", person: "・探求心をもって素直に取り組める方\n・主体性をもってチャレンジしたい方", pr: "設立から40年。福祉用具のリーディングカンパニーとして安定成長中。", alumni: 1, international: true, campus: "tama" }
         ]
     };
 
-    // DOM要素
-    const grid = document.getElementById('company-grid');
-    const modal = document.getElementById('modal');
-    const displayDate = document.getElementById('display-date');
-    const displayTime = document.getElementById('time-display'); // ヘッダー時間
-    const displayLocation = document.getElementById('location-display'); // ヘッダー場所
-    const locationContainer = document.getElementById('location-container'); // 場所コンテナ
-    const timeAlert = document.getElementById('time-alert'); // 時間注意アラート
-    const timelineContainer = document.getElementById('timeline-container');
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    
-    // 検索・一覧用
-    const allCompaniesBody = document.getElementById('all-companies-body');
-    const industryFilter = document.getElementById('industry-filter');
-    const dateFilter = document.getElementById('date-filter');
-    const searchInput = document.getElementById('search-input');
-
-    // 現在選択中の日付
-    let currentDate = '2026-02-04';
-
-    // 日付切り替え関数
-    window.switchDate = function(date) {
-        currentDate = date;
-        const config = dateConfig[date];
-        
-        // タブの見た目更新
-        tabButtons.forEach(btn => {
-            if(btn.getAttribute('onclick').includes(date)) {
-                btn.classList.add('active');
-                
-                // 日付表示の更新
-                const dateText = btn.querySelector('.tab-date').innerText;
-                const dowText = btn.querySelector('.tab-dow').innerText;
-                displayDate.innerText = `${dateText.replace('2/','2月')}日${dowText}`;
-                
-            } else {
-                btn.classList.remove('active');
-            }
-        });
-
-        // スケジュールと場所の更新
-        updateScheduleAndLocation(date, config);
-        
-        // カード再描画
-        renderCards();
+    const config = {
+        "tama": { name: "多摩キャンパス", dress: "服装自由", time: "12:45 ～ 15:30", color: "info-tama", 
+                  timeline: [
+                      {t: "12:45", e: "全体挨拶・概要説明"}, {t: "13:00", e: "企業PRタイム"},
+                      {t: "13:40", e: "説明会 (1回目)"}, {t: "14:20", e: "説明会 (2回目)"}, {t: "15:00", e: "説明会 (3回目)"}
+                  ]},
+        "shonan": { name: "湘南キャンパス", dress: "スーツ着用", time: "13:30 ～ 16:25", color: "info-shonan", 
+                  timeline: [
+                      {t: "13:30", e: "全体説明（時間厳守）"}, {t: "14:10", e: "企業PR"},
+                      {t: "14:50", e: "説明会 (1回目)"}, {t: "15:25", e: "説明会 (2回目)"}, {t: "16:00", e: "説明会 (3回目)"}
+                  ]}
     };
-    
-    // スケジュール・場所更新関数
-    function updateScheduleAndLocation(date, config) {
-        const type = config.type;
-        const data = schedules[type];
-        
-        // 場所の更新
-        displayLocation.innerText = config.location;
-        
-        // 湘南キャンパスの場合の強調表示（背景色変更）
-        if (config.location.includes("湘南")) {
-            locationContainer.classList.add("shonan-mode");
-            timeAlert.style.display = "inline-block"; // アラート表示
-        } else {
-            locationContainer.classList.remove("shonan-mode");
-            timeAlert.style.display = "none"; // アラート非表示
-        }
-        
-        // ヘッダーの時間表示更新
-        if (type === "B") {
-            displayTime.innerHTML = "13:30 ～ 16:25";
-        } else {
-            displayTime.innerHTML = "12:45 ～ 15:30";
-        }
 
-        // タイムライン描画
-        let html = "";
-        data.forEach(item => {
-            html += `
-            <div class="timeline-item">
-                <div class="timeline-time">${item.time}</div>
-                <div class="timeline-content">${item.event}</div>
-            </div>`;
-        });
-        timelineContainer.innerHTML = html;
-    }
-    
-    // カード生成関数
-    function renderCards() {
-        grid.innerHTML = ''; // クリア
-        const companies = seminarData[currentDate];
+    let allCompaniesFlat = [];
+    let currentFilteredList = [];
+    let currentDayList = [];
 
-        if (!companies || companies.length === 0) {
-            grid.innerHTML = `<div class="no-data">この日程の企業情報は準備中です。</div>`;
-            return;
-        }
+    function switchDate(date) {
+        const labels = {"2026-02-04":"2月4日(水)", "2026-02-05":"2月5日(木)", "2026-02-09":"2月9日(月)", "2026-02-10":"2月10日(火)", "2026-02-25":"2月25日(水)", "2026-02-26":"2月26日(木)"};
+        document.getElementById('display-date-label').innerText = labels[date] + " 参加企業一覧";
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.toggle('active', btn.getAttribute('onclick').includes(date)));
 
-        companies.forEach(company => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.onclick = () => openModal(company);
+        const campusType = (date === "2026-02-09" || date === "2026-02-10") ? "shonan" : "tama";
+        const c = config[campusType];
 
-            // OB/OGバッジ
-            let badgesHtml = '';
-            if (company.alumni > 0) {
-                badgesHtml += `<span class="badge badge-ob">多摩大OB/OG ${company.alumni}名</span>`;
-            }
-            // 留学生バッジ (追加)
-            if (company.international) {
-                badgesHtml += `<span class="badge badge-intl">留学生歓迎</span>`;
-            }
-            // 勤務地バッジ
-            if (company.location && (company.location.includes("多摩") || company.location.includes("東京") || company.location.includes("横浜") || company.location.includes("神奈川"))) {
-                 badgesHtml += `<span class="badge badge-loc">関東・東京エリア</span>`;
-            }
+        const dayInfo = document.getElementById('day-info');
+        dayInfo.style.background = campusType === "shonan" ? "#ffebee" : "#e1f5fe";
+        dayInfo.style.color = campusType === "shonan" ? "var(--shonan-color)" : "var(--tama-color)";
+        dayInfo.innerHTML = `【多摩大学 ${c.name}】　${c.dress}　${c.time}`;
 
-            card.innerHTML = `
-                <div class="industry-label">${company.industry}</div>
-                <div class="company-name">${company.name}</div>
-                <div class="badges-container">${badgesHtml}</div>
-                <div class="catchphrase">${company.catchphrase || ""}</div>
-                <div class="card-footer">
-                    <span class="btn-text">詳細を見る →</span>
+        document.getElementById('timeline').innerHTML = c.timeline.map(item => `
+            <div class="timeline-item"><span class="timeline-time">${item.t}</span> ${item.e}</div>
+        `).join('');
+
+        const grid = document.getElementById('company-grid');
+        currentDayList = seminarData[date] || [];
+        grid.innerHTML = currentDayList.length ? currentDayList.map((comp, idx) => `
+            <div class="card" onclick="openModalFromDay(${idx})">
+                <span class="industry-label">${comp.industry}</span>
+                <div class="company-name">${comp.name}</div>
+                <div style="margin-bottom:0.5rem;">
+                    ${comp.alumni > 0 ? `<span class="badge badge-ob">OB ${comp.alumni}名</span>` : ''}
+                    ${comp.international ? `<span class="badge badge-intl">留学生歓迎</span>` : ''}
                 </div>
-            `;
-            grid.appendChild(card);
-        });
+                <div style="font-size:0.85rem; color:#666; flex-grow:1;">${comp.catchphrase || ""}</div>
+                <div style="text-align:right; margin-top:1rem; color:var(--primary); font-size:0.8rem; font-weight:bold;">詳細を見る →</div>
+            </div>
+        `).join('') : '<div style="grid-column:1/-1; text-align:center; padding:3rem; color:#999;">データ準備中</div>';
     }
 
-    // モーダルオープン
-    function openModal(company) {
-        document.getElementById('modal-name').innerText = company.name;
-        document.getElementById('modal-industry').innerText = company.industry;
-        
-        // 詳細データのセット
-        // 9日・10日はデータが少ないため、空の項目を隠す処理を入れる
-        const fields = [
-            { id: 'modal-business', val: company.business, sec: 'sec-business' },
-            { id: 'modal-job', val: company.job ? `【職種】${company.job}\n【勤務地】${company.location}` : null, sec: 'sec-job' },
-            { id: 'modal-person', val: company.person, sec: 'sec-person' },
-            { id: 'modal-pr', val: company.pr, sec: 'sec-pr' }
-        ];
+    window.openModalFromDay = function(idx) { openModal(currentDayList[idx]); }
+    window.openModalFromList = function(idx) { openModal(currentFilteredList[idx]); }
 
-        fields.forEach(f => {
-            const el = document.getElementById(f.id);
-            const sec = document.getElementById(f.sec);
-            if (f.val) {
-                el.innerText = f.val;
-                sec.classList.remove('hidden');
-            } else {
-                sec.classList.add('hidden');
-            }
-        });
-        
-        // バッジ
-        const badgeArea = document.getElementById('modal-badges');
-        let badgesHtml = '';
-        if (company.alumni > 0) {
-            badgesHtml += `<span class="badge badge-ob" style="font-size:0.9rem; padding:4px 10px;">多摩大学 卒業生 ${company.alumni}名在籍</span>`;
-        }
-        // 留学生バッジ (モーダル内)
-        if (company.international) {
-            badgesHtml += `<span class="badge badge-intl" style="font-size:0.9rem; padding:4px 10px;">留学生歓迎</span>`;
-        }
-        badgeArea.innerHTML = badgesHtml;
+    function openModal(comp) {
+        if (!comp) return;
+        const c = config[comp.campus];
+        const bar = document.getElementById('modal-campus-bar');
+        bar.className = "modal-campus-info " + c.color;
+        document.getElementById('modal-campus-name').innerText = "📍 " + c.name + " (" + c.time + ")";
+        document.getElementById('modal-dress-code').innerText = "👔 " + c.dress;
 
-        // リンク
-        const linkBtn = document.getElementById('modal-link');
-        linkBtn.href = `https://www.google.com/search?q=${company.name}`;
+        document.getElementById('modal-name').innerText = comp.name;
+        document.getElementById('modal-industry').innerText = comp.industry;
+        document.getElementById('modal-business').innerText = comp.business || "会場にて説明";
+        document.getElementById('modal-person').innerText = comp.person || "会場にて説明";
+        document.getElementById('modal-pr').innerText = comp.pr || "";
+        document.getElementById('modal-job').innerText = comp.job ? `【職種】${comp.job}\n【勤務地】${comp.location}` : "会場にて説明";
         
-        modal.classList.add('active');
+        document.getElementById('modal-badges').innerHTML = (comp.alumni > 0 ? `<span class="badge badge-ob" style="font-size:0.85rem; padding:4px 10px;">多摩大OB ${comp.alumni}名在籍</span>` : '') + (comp.international ? `<span class="badge badge-intl" style="font-size:0.85rem; padding:4px 10px;">留学生歓迎</span>` : '');
+        document.getElementById('modal-link').href = `https://www.google.com/search?q=${comp.name}+採用`;
+        document.getElementById('modal').classList.add('active');
         document.body.style.overflow = 'hidden';
     }
 
-    // モーダルクローズ
-    function closeModal(e) {
-        if (e) e.stopPropagation();
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
-    }
+    function closeModal() { document.getElementById('modal').classList.remove('active'); document.body.style.overflow = 'auto'; }
 
-    // 全リスト生成とフィルタリング
-    let allCompaniesFlat = [];
-
-    function initAllCompaniesList() {
-        // フラットな配列を作成
+    function initAllCompanies() {
+        const industrySet = new Set();
+        allCompaniesFlat = [];
         Object.keys(seminarData).forEach(date => {
             const dateStr = date.slice(5).replace('-','/');
-            let dow = "(?)";
-            if(date.includes("04") || date.includes("25")) dow = "(水)";
-            if(date.includes("05") || date.includes("26")) dow = "(木)";
-            if(date.includes("09")) dow = "(月)";
-            if(date.includes("10")) dow = "(火)";
-            
-            // クラス付与用
-            let dateClass = "d-" + date.slice(8);
-
-            seminarData[date].forEach(company => {
-                allCompaniesFlat.push({
-                    ...company,
-                    dateKey: date,
-                    dateDisplay: `${dateStr}${dow}`,
-                    dateClass: dateClass
-                });
+            const dow = date.includes("04")||date.includes("25") ? "(水)" : date.includes("05")||date.includes("26") ? "(木)" : date.includes("09") ? "(月)" : "(火)";
+            const dateClass = "d-" + date.slice(8);
+            seminarData[date].forEach(comp => {
+                allCompaniesFlat.push({ ...comp, dateLabel: `${dateStr}${dow}`, dateClass: dateClass });
+                industrySet.add(comp.industry);
             });
         });
-
-        // 業界フィルタの選択肢生成
-        const industries = [...new Set(allCompaniesFlat.map(c => c.industry))].sort();
-        industries.forEach(ind => {
-            const opt = document.createElement('option');
-            opt.value = ind;
-            opt.innerText = ind;
-            industryFilter.appendChild(opt);
+        const filter = document.getElementById('industry-filter');
+        Array.from(industrySet).sort().forEach(ind => {
+            const opt = document.createElement('option'); opt.value = ind; opt.innerText = ind; filter.appendChild(opt);
         });
-
         filterList();
     }
 
     window.filterList = function() {
-        const keyword = searchInput.value.toLowerCase();
-        const industry = industryFilter.value;
-        const dateVal = dateFilter.value;
-        const intlOnly = document.getElementById('intl-filter').checked; // 留学生フィルタ
-
-        const filtered = allCompaniesFlat.filter(c => {
-            const matchKeyword = c.name.toLowerCase().includes(keyword) || (c.catchphrase && c.catchphrase.toLowerCase().includes(keyword));
-            const matchIndustry = industry === "" || c.industry === industry;
-            const matchDate = dateVal === "" || c.dateKey === dateVal;
-            const matchIntl = !intlOnly || c.international === true; // チェック時はtrueのみ
-            
-            return matchKeyword && matchIndustry && matchDate && matchIntl;
-        });
-
-        renderList(filtered);
+        const keyword = document.getElementById('search-input').value.toLowerCase();
+        const industry = document.getElementById('industry-filter').value;
+        const intlOnly = document.getElementById('intl-filter').checked;
+        currentFilteredList = allCompaniesFlat.filter(c => 
+            (c.name.toLowerCase().includes(keyword) || (c.catchphrase && c.catchphrase.toLowerCase().includes(keyword))) &&
+            (industry === "" || c.industry === industry) && (!intlOnly || c.international)
+        );
+        const body = document.getElementById('all-companies-body');
+        body.innerHTML = currentFilteredList.length ? currentFilteredList.map((c, idx) => `
+            <tr onclick="openModalFromList(${idx})">
+                <td><span class="date-badge ${c.dateClass}">${c.dateLabel}</span></td>
+                <td>${c.industry}</td><td style="font-weight:bold; color:var(--primary);">${c.name}</td>
+                <td style="text-align:center;">${c.international ? '<span class="intl-mark">◎</span>' : ''}</td>
+            </tr>
+        `).join('') : '<tr><td colspan="4" style="text-align:center; padding:2rem;">見つかりませんでした</td></tr>';
     }
 
-    function renderList(list) {
-        allCompaniesBody.innerHTML = "";
-        if(list.length === 0) {
-            allCompaniesBody.innerHTML = "<tr><td colspan='4' style='text-align:center; padding:2rem;'>該当する企業が見つかりませんでした</td></tr>";
-            return;
-        }
-
-        list.forEach(c => {
-            const tr = document.createElement('tr');
-            tr.onclick = () => openModal(c);
-            
-            // 留学生マーク
-            const intlMark = c.international ? "<span class='intl-mark'>◎</span>" : "";
-            
-            tr.innerHTML = `
-                <td><span class="list-date-badge ${c.dateClass}">${c.dateDisplay}</span></td>
-                <td>${c.industry}</td>
-                <td style="font-weight:bold; color:var(--primary);">${c.name}</td>
-                <td class="text-center">${intlMark}</td>
-            `;
-            allCompaniesBody.appendChild(tr);
-        });
-    }
-
-    // 初期化
-    // 初期表示時は2/4なので多摩キャンパス設定
-    updateScheduleAndLocation(currentDate, dateConfig[currentDate]); 
-    renderCards();
-    initAllCompaniesList(); // リスト初期化
+    window.onload = function() { switchDate('2026-02-04'); initAllCompanies(); };
 </script>
-
 </body>
 </html>
