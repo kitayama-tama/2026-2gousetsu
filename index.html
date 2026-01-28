@@ -263,7 +263,7 @@
         <h3 style="margin-top:0; font-size:1rem; color:var(--primary);">【当日の持ち物チェック】</h3>
         <label style="display:block; font-size:0.9rem; margin-bottom:5px;"><input type="checkbox"> 訪問カード（事前記入分、または当日受付で配布）</label>
         <label style="display:block; font-size:0.9rem; margin-bottom:5px;"><input type="checkbox"> 筆記用具・メモ帳</label>
-        <label style="display:block; font-size:0.9rem;"><input type="checkbox"> スマートフォン（この画面をいつでも出せるように！）</label>
+        <label style="display:block; font-size:0.9rem;"><input type="checkbox"> スマートフォン（この画面をいつでも確認できるように！）</label>
     </div>
 </div>
 
@@ -293,7 +293,6 @@
                 <p id="modal-pr" class="detail-content"></p>
             </div>
             <div class="detail-item">
-            
                 <span class="detail-label">募集職種・勤務地</span>
                 <p id="modal-job" class="detail-content"></p>
             </div>
@@ -306,12 +305,14 @@
 </div>
 
 <script>
-    // 企業データ（フルボリューム復元版）
+    // 業界集約：IT・情報通信 / 物流・運輸 / 小売・流通 / 生活・公共サービス / メーカー / 金融・保険 / 建設・不動産・測量 / 商社・卸売 / 医療・福祉
+
     const seminarData = {
         "2026-02-04": [
             { name: "アイサンテクノロジー株式会社", industry: "IT・情報通信", catchphrase: "技術力とチャレンジ精神でより良い未来を", business: "1. 測量業・土木建設業向けCADソフトウェアの開発、販売およびサポート\n2. 高精度三次元地図データの作成および販売\n3. 計測機器や自動運転システムの販売", job: "営業職", location: "神奈川県 / 愛知県", person: "・新しい知識・技術や知らないことに関して好奇心がある人\n・仲間と協力し熱意をもって仕事に取り組むことができる人", pr: "「測量CADシステムの開発・販売」そして「自動運転サービスの提供」を通じて、より良い未来の社会インフラの発展に貢献するIT企業です。", alumni: 2, international: false, campus: "tama" },
             { name: "相田化学工業株式会社", industry: "メーカー", catchphrase: "貴金属リサイクルと産業廃棄物の適正処理", business: "金、銀、プラチナなどの貴金属の回収・精製と産業廃棄物の適正処理を柱に事業を展開。\n・貴金属粘土(アートクレイ)の製造、販売、教室運営など", job: "生産職 / 分析職 / 営業職", location: "本社(東京都府中市)ほか", person: "・健康であること\n・プラス思考であること\n・チャレンジ精神をもっていること", pr: "創業63年目の貴金属リサイクル企業です。100年企業を目指し、健康推進企業として社員が健康に活躍できる職場環境を整えています。", alumni: 1, international: false, campus: "tama" },
-             { name: "京王電鉄株式会社", industry: "物流・運輸", catchphrase: "あなたとあたらしいあしたへ", business: "・鉄道事業\n・土地、建物の賃貸業・販売 など", job: "①エキスパート職(乗務員候補)\n②エキスパート職(技術員)", location: "東京都 / 神奈川県", person: "・接客や笑顔に自信がある方\n・法令・規則を遵守できる方", pr: "グループ理念である「信頼のトップブランド」の確立のため、鉄道事業を中心に沿線価値向上につながる生活関連サービスを積極的に提供しています。", alumni: 7, international: true, campus: "tama" }, 
+            
+            { name: "京王電鉄株式会社", industry: "物流・運輸", catchphrase: "あなたとあたらしいあしたへ", business: "・鉄道事業\n・土地、建物の賃貸業・販売 など", job: "①エキスパート職(乗務員候補)\n②エキスパート職(技術員)", location: "東京都 / 神奈川県", person: "・接客や笑顔に自信がある方\n・法令・規則を遵守できる方", pr: "グループ理念である「信頼のトップブランド」の確立のため、鉄道事業を中心に沿線価値向上につながる生活関連サービスを積極的に提供しています。", alumni: 7, international: true, campus: "tama" },
             { name: "スズキ販売会社グループ", industry: "小売・流通", catchphrase: "飾らない自分で、お客様の人生を飾ろう", business: "1. 軽自動車、小型自動車等の販売\n2. 自動車の点検、車検、修理\n3. 中古車の販売、買取\n4. 保険代理業務", job: "営業職", location: "神奈川県内（平塚、小田原、厚木など）", person: "・人と話すことが好きな人\n・関係構築を大切にできる人", pr: "「小さなクルマ、大きな未来。」のスローガンのもとコンパクトカーの販売を強みとしております。", alumni: 0, international: true, campus: "tama" },
             { name: "CSP セントラル警備保障株式会社", industry: "生活・公共サービス", catchphrase: "セキュリティで、未来を描け", business: "・常駐警備\n・機械警備\n・輸送警備\n・機器販売及び工事（監視カメラ等）", job: "警務職 / 一般職", location: "首都エリアほか", person: "「自律型人材」：積極性・誠実さ・コミュニケーション力があり、自分で考えて行動できる人。", pr: "東証プライム上場、業界大手第3位。JR東日本と業務提携！質の高いサービスを提供。", alumni: 2, international: false, campus: "tama" },
             { name: "株式会社全労済システムズ", industry: "IT・情報通信", catchphrase: "高度な情報サービスを提供", business: "こくみん共済coop<全労済>グループのシステム開発・保守・運用管理を一貫して担うユーザー系SIer。", job: "SE", location: "東京都八王子市別所（転勤なし）", person: "・積極性\n・誠実さ\n・コミュニケーション力", pr: "社会インフラを支える使命感とやりがいのある仕事です。文理不問・未経験でも安心して成長できる環境が整っています。", alumni: 3, international: false, campus: "tama" },
@@ -322,8 +323,7 @@
         ],
         "2026-02-05": [
             { name: "株式会社アクティオ", industry: "商社・卸売", catchphrase: "「提案のある建設機械レンタル」", business: "建設機械のレンタル・リース及び販売\n・レンサルティング事業", job: "営業職、技術営業職、整備職、事務職", location: "本人の希望を考慮し決定(全国)", person: "「人のため、未来のため、自らの誇りにかけて行動できる人」", pr: "建設機械レンタル業界売上No.1企業です。新入社員研修では約20種類の資格を取得できるため、未経験でも安心です。", alumni: 1, international: true, campus: "tama" },
-             { name: "旭情報サービス株式会社", industry: "IT・情報通信", catchphrase: "独立系の強みを活かしITインフラを支える", business: "1. ネットワーク・サーバーの構築、運用管理\n2. システム開発およびソフトウェア保守\n3. 企業のIT環境全般を支えるインフラソリューションの提供", job: "ITエンジニア / 営業職", location: "東京本社(新宿)、横浜、大阪、名古屋など", person: "・誠実で、人と人とのコミュニケーションを大切にできる方\n・IT技術に興味を持ち、自ら成長しようとする意欲のある方", pr: "東証スタンダード上場。独立系SIerとして多種多様な業界のシステムを支えています。多摩大学のOBも多数活躍しており、教育体制も充実。未経験からITプロへ。", alumni: 5, international: true, campus: "tama" },
-                     
+            { name: "旭情報サービス株式会社", industry: "IT・情報通信", catchphrase: "独立系の強みを活かしITインフラを支える", business: "1. ネットワーク・サーバーの構築、運用管理\n2. システム開発およびソフトウェア保守\n3. 企業のIT環境全般を支えるインフラソリューションの提供", job: "ITエンジニア / 営業職", location: "東京本社(新宿)、横浜、大阪、名古屋など", person: "・誠実で、人と人とのコミュニケーションを大切にできる方\n・IT技術に興味を持ち、自ら成長しようとする意欲のある方", pr: "東証スタンダード上場。独立系SIerとして多種多様な業界のシステムを支えています。多摩大学のOBも多数活躍しており、教育体制も充実。未経験からITプロへ。", alumni: 5, international: true, campus: "tama" },
             { name: "株式会社サイネックス", industry: "生活・公共サービス", catchphrase: "地方創生のプラットフォームを担う", business: "官民協働事業を拡大し、地方自治体のパートナーとして広報、地域経済活動をサポート。行政情報誌「わが街事典」の発行等。", job: "企画提案型営業職", location: "全国各地(希望考慮)", person: "・コミュニケーション能力が高く、人と話すのが好きな方\n・地元に貢献したい方", pr: "「自分の力で地域を活気づけたい」。そんな想いを、仕事に変えてみませんか？", alumni: 1, international: false, campus: "tama" },
             { name: "相模鉄道株式会社", industry: "物流・運輸", catchphrase: "KEEP SO GROWING", business: "相鉄グループの中核企業で、神奈川県内で鉄道事業(相鉄線)を展開。\n安全・安心・快適輸送の実現。", job: "エキスパート職(乗務、技術)、総合職", location: "横浜市、大和市、海老名市、藤沢市", person: "「より良い未来を創りたい」等の3つの思いと、「成長する」「工夫する」等の5つの行動に共感できる人材。", pr: "都心直通運転を契機とした新しい豊かさの創造に挑戦し、成長し続けていきます。", alumni: 1, international: true, campus: "tama" },
             { name: "生活協同組合コープみらい", industry: "小売・流通", catchphrase: "ともにはぐくむくらしと未来", business: "宅配事業・店舗事業・福祉事業・サービス事業(チケット、葬祭など)", job: "宅配事業:地域担当、店舗事業:販売担当", location: "千葉県・埼玉県・東京都", person: "・人とコミュニケーションを取ることが好きな方\n・人から感謝される、人の役に立つ仕事がしたい方", pr: "地域の方々の声を大切に人々の生活を支えていくことを大切にしている組織です。", alumni: 3, international: false, campus: "tama" },
@@ -339,10 +339,10 @@
             { name: "株式会社オノマシン", industry: "商社・卸売", catchphrase: "人・くらし・社会に貢献", business: "作業工具や電動工具、建設土木機械など多彩な機械工具を取り扱い、工場や現場へ高品質な商品を提供。技術を核にした現場力で貢献。", job: "営業職 / 事務職", location: "各地", person: "・誠実で技術に関心がある方", pr: "幅広い製品を揃え、技術を核にした現場力で社会に貢献しています。", alumni: 0, international: false, campus: "shonan" },
             { name: "らかながわ信用金庫", industry: "金融・保険", catchphrase: "地域密着型の金融機関", business: "神奈川県横須賀市に本店を置く協同組織金融機関。よろず相談承り処として税務・相続・健康などの相談に対応し、地域活性化プロジェクトを推進。", job: "総合職", location: "神奈川県内", person: "・地域のために働きたい意欲がある方", pr: "地域密着型で、金融サービスだけでなく地域活性化プロジェクトも推進しています。", alumni: 0, international: false, campus: "shonan" },
             { name: "株式会社データサービス", industry: "IT・情報通信", catchphrase: "多様なITソリューション", business: "企業や官公庁の基幹業務システムの企画・設計・開発、クラウド導入支援、AI関連システム開発。Webシステム構築やデータエントリーサービスも提供。", job: "エンジニア", location: "都内", person: "・ITで社会を支えたい方", pr: "多様なITソリューションで顧客の課題解決を支援している企業です。", alumni: 0, international: false, campus: "shonan" },
-            { name: "株式会社東計電算", industry: "IT・情報通信", catchphrase: "【東証STD上場】", business: "業種・業務別に特化した情報システムの設計・開発・運用。製造、流通、小売、外食など多様な分野でワンストップサービスを提供。", job: "SE / 営業", location: "各地", person: "・専門スキルを身につけたい意欲的な方", pr: "データセンターを活用したアウトソーシング事業やネットワーク構築も展開。", alumni: 0, international: false, campus: "shonan" },
+            { name: "株式会社東計電算", industry: "IT・情報通信", catchphrase: "業種特化型のワンストップサービス", business: "情報システムの設計・開発・運用。製造、流通、小売、外食など多様な分野でワンストップサービスを提供。", job: "SE / 営業", location: "各地", person: "・専門スキルを身につけたい意欲的な方", pr: "データセンターを活用したアウトソーシング事業やネットワーク構築も展開。", alumni: 0, international: false, campus: "shonan" },
             { name: "日本ロジテム株式会社", industry: "物流・運輸", catchphrase: "【東証STD上場】総合物流企業", business: "首都圏を中心に食品、インテリア、アパレルなどを取り扱い、貨物自動車運送、倉庫・物流センター運営、不動産賃貸などを提供。東南アジアでも事業展開。", job: "物流管理 / 営業", location: "首都圏・海外", person: "・物流の動脈を支えたい方", pr: "共同配送や通販物流などの付加価値サービスで顧客を支える総合物流企業です。", alumni: 0, international: false, campus: "shonan" },
             { name: "ミモザ株式会社", industry: "医療・福祉", catchphrase: "高齢者の幸せな暮らしを支える", business: "首都圏中心にグループホーム、介護付きホーム、サ高住、デイサービス、訪問介護など多様な介護サービスを展開。", job: "介護職 / 事務職", location: "首都圏", person: "・優しさと誠実さを持って接することができる方", pr: "高齢者の幸せな暮らしを支える介護事業を行っています。", alumni: 0, international: false, campus: "shonan" },
-            { name: "横浜グランドインターコンチネンタルホテル", industry: "生活・公共サービス", catchphrase: "世界基準のおもてなし", business: "パシフィコ横浜内に位置する高級ホテルを運営。国際会議やイベント参加者のビジネスニーズに対応した宿泊・レストラン・宴会・婚礼サービスを提供。", job: "ホテル職", location: "横浜", person: "・最高のおもてなしを追求したい方", pr: "国内外のVIPや観光客に世界基準のおもてなしを届けています。", alumni: 0, international: false, campus: "shonan" },
+            { name: "横浜グランドインターコンチネンタルホテル", industry: "生活・公共サービス", catchphrase: "世界基準のおもてなし", business: "パシフィコ横浜内に位置する高級ホテルを運営。国際会議やイベント参加者のビジネスニーズに対応した宿泊・レストラン・宴会・婚礼サービスを提供。", job: "フロント / サービス / 営業", location: "横浜", person: "・最高のおもてなしを追求したい方", pr: "国内外のVIPや観光客に世界基準のおもてなしを届けています。", alumni: 0, international: false, campus: "shonan" },
             { name: "リゾートトラスト株式会社", industry: "生活・公共サービス", catchphrase: "【東証PRM上場】", business: "会員制リゾートホテルを全国に展開し、高品質な宿泊・レストランサービスを提供。ゴルフ場運営、メディカル検診、シニアレジデンス事業も手掛ける。", job: "総合職 / ホテル職", location: "全国", person: "・高品質なサービスに携わりたい方", pr: "多様なリゾートライフをサポートする総合リゾート事業を展開する企業です。", alumni: 0, international: false, campus: "shonan" }
         ],
         "2026-02-10": [
@@ -360,9 +360,10 @@
         "2026-02-25": [
             { name: "上尾中央医科グループ(AMG)", industry: "医療・福祉", catchphrase: "地域に根ざし、心に寄り添う", business: "「上尾中央総合病院」をはじめ、首都圏1都6県で28の病院、21の介護施設、教育施設等を運営。", job: "医療マネジメント職(総務・人事等)、MSW", location: "東京・千葉・神奈川・埼玉・山梨など", person: "どんな方とも柔軟に接することができる方。", pr: "事務系総合職として、資格なし・医療知識なしでもチャレンジできる環境です！", alumni: 3, international: true, campus: "tama" },
             { name: "株式会社エコス", industry: "小売・流通", catchphrase: "地域性を大切にした店舗運営", business: "食品スーパーマーケット・チェーンの経営。", job: "総合職", location: "東京・埼玉・神奈川・千葉・栃木・茨城・福島", person: "人と接することが好きな方。", pr: "東証プライム上場。「個店経営」で地域に根差した店づくりを実現しています。", alumni: 0, international: true, campus: "tama" },
-            { name: "コーナン商事株式会社", industry: "小売・流通", catchphrase: "地域でいちばん“ぴったり”な商品をお届け", business: "ホームセンター事業、建築職人向け小売業、会員制建築資材卸売り。", job: "総合職 / 地域限定職", location: "全国", person: "主体性、協調性、柔軟性を兼ね備えた、失敗を恐れずにチャレンジできる人。", alumni: 7, international: true, campus: "tama" },
+            { name: "コーナン商事株式会社", industry: "小売・流通", catchphrase: "地域でいちばん“ぴったり”をお届け", business: "ホームセンター事業、建築職人向け小売業、会員制建築資材卸売り。", job: "総合職 / 地域限定職", location: "全国", person: "主体性、協調性、柔軟性を兼ね備えた、失敗を恐れずにチャレンジできる人。", alumni: 7, international: true, campus: "tama" },
             { name: "トヨタエルアンドエフ東京株式会社", industry: "商社・卸売", catchphrase: "現場にしか答えはない", business: "フォークリフトの販売・レンタル、物流システム・機器の提供、車両点検・安全指導。", job: "営業スタッフ(総合職)", location: "都内8拠点(港、大田、江東、多摩、八王子等)", person: "・チームワークを大切にできる人\n・先を読んで考え、行動できる人", pr: "フォークリフトシェア59年連続No.1。物流に関する機器を取り扱う総合商社です。", alumni: 2, international: true, campus: "tama" },
             { name: "日本駐車場開発株式会社", industry: "建設・不動産・測量", catchphrase: "HAPPY TRIANGLE", business: "不稼働資産を有効活用する駐車場事業、スキー場再生、テーマパーク再生、自然エネルギー事業など。", job: "総合職(駐車場コンサル営業からスタート)", location: "東京(丸の内)、大阪(梅田)", person: "・現状に満足せず常に挑戦し、成長を楽しめる人\n・自ら考え行動できる人", pr: "社会課題をビジネスで解決する会社。若手でも積極的に挑戦させてもらえる社風です。", alumni: 1, international: true, campus: "tama" },
+            { name: "日本ロジテム株式会社", industry: "物流・運輸", catchphrase: "思いをつなぐ、ロジスティクス。", business: "食品・インテリア・アパレル等の物流。3PLサービスを提供。国内および東南アジア展開。", job: "総合職(物流管理、営業等)、セールスドライバー", location: "首都圏中心に各営業所、海外駐在など", person: "チームで仕事をする上でのコミュニケーション能力、マネジメント能力。", pr: "東南アジアにも展開し、企業物流の一翼を担っています。", alumni: 1, international: true, campus: "tama" },
             { name: "東日本旅客鉄道株式会社", industry: "物流・運輸", catchphrase: "安心と感動を、未来へつなぐ", business: "鉄道事業、生活サービス事業、Suica事業など。", job: "総合職、エリア職(駅・乗務員、技術、土木等)", location: "首都圏エリア、高崎、水戸、長野、仙台等", person: "JR東日本という広大なフィールドでくらしを、世の中を、変えていきたい人。", alumni: 8, international: true, campus: "tama" },
             { name: "株式会社ベストランス", industry: "物流・運輸", catchphrase: "お客様へ食の安全と安心をお届けします", business: "セブンイレブンへのルート配送、食材・製品配送、センター運営管理など。", job: "総合職(仕分け管理、物流管理からスタート)", location: "関東の配送センター(現住所付近を検討)", person: "積極的にコミュニケーションが取れる方。", pr: "わらべや日洋HDグループ。食の物流を担う安定成長企業です。", alumni: 2, international: true, campus: "tama" },
             { name: "株式会社ランドコンピュータ", industry: "IT・情報通信", catchphrase: "Support your IT challenge", business: "各種業務用システムの企画提案・設計・開発(SI、インフラ、パッケージ)。", job: "SE(システムエンジニア)、法人営業職、事務職", location: "東京、大阪(転勤なし)", person: "優しさ、好奇心、バイタリティー、コミュニケーション。", pr: "前身が学校法人であり、教育には特に力を入れています。文系出身でも安心。", alumni: 3, international: true, campus: "tama" },
@@ -371,7 +372,7 @@
         "2026-02-26": [
             { name: "アマノ株式会社", industry: "メーカー", catchphrase: "未来が求める、時間と空気を。", business: "時間情報システム、パーキングシステム、環境システム等の企画・開発・製造・販売・保守。", job: "技術職、営業職、企画事務職", location: "全国(企画事務職は横浜)", person: "・自らも変わり続けることのできる人\n・自ら考え行動できる人", pr: "創業94年のBtoBメーカー。タイムレコーダーや駐車場システム等で社会を支えています。", alumni: 1, international: true, campus: "tama" },
             { name: "石川玩具株式会社", industry: "商社・卸売", catchphrase: "ワクワクを創造するおもちゃ業界の架け橋", business: "一般玩具やゲーム、雑貨などの卸売。メーカーと小売店の架け橋。", job: "営業職、企画職", location: "東京、大阪、福岡、埼玉", person: "・おもちゃが好きな人\n・お客様の信頼を得られる「人柄」がある人", pr: "創業100年の安定経営。良い子に幸せをお届けする玩具商社です。", alumni: 1, international: true, campus: "tama" },
-            { name: "オーケー株式会社", industry: "小売・流通", catchphrase: "高品質・Everyday Low Price", business: "ディスカウントセンター及びディスカウント・スーパーマーケットの経営。", job: "店舗スタッフ / 本社スタッフ", location: "東京・神奈川・千葉・埼玉の各店舗または本社", person: "社是「極めて謙虚で、極めて誠実、極めて勤勉」を体現できる方。", alumni: 11, international: false, campus: "tama" },
+            { name: "オーケー株式会社", industry: "小売・流通", catchphrase: "高品質・Everyday Low Price", business: "ディスカウントセンター及びディスカウント・スーパーマーケットの経営。", job: "店舗スタッフ / 本社スタッフ", location: "東京・神奈川・千葉・埼玉の各店舗または本社", person: "社正式「極めて謙虚で、極めて誠実、極めて勤勉」を体現できる方。", alumni: 11, international: false, campus: "tama" },
             { name: "株式会社K-LINE", industry: "生活・公共サービス", catchphrase: "ニーズの数だけエキスパートがいる", business: "食品工場への人材派遣(主に外国人労働者)。コンビニ製品等の製造業務。", job: "派遣社員の労務管理、営業事務", location: "原則として本社(四谷)", person: "・学び続ける姿勢を持った方\n・外国人材と協働できる方", pr: "優秀な外国人労働者を迅速に確保し、企業の生産を支えています。", alumni: 1, international: true, campus: "tama" },
             { name: "スジャータめいらくグループ", industry: "メーカー", catchphrase: "褐色の恋人", business: "コーヒー用フレッシュ「スジャータ」等の製造販売。生産直販システム。", job: "総合職(営業、生産技術)、一般職(品質検査)", location: "営業(全国)、生産技術・検査(千葉)", person: "・ポジティブで協調性のある方\n・前向きで使命感の強い方", pr: "創業100周年に向け、美味しさと健康をお届けしています。", alumni: 2, international: false, campus: "tama" },
             { name: "株式会社総合車両製作所", industry: "メーカー", catchphrase: "TRAINS MADE FOR YOU", business: "鉄道車両、貨物用コンテナ、鉄道関連製品の設計、製造、販売。", job: "技術系総合職、事務系総合職", location: "横浜、新潟、和歌山、東京など", person: "・チームで行動できる方\n・プロフェッショナルを目指せる方", pr: "JR東日本グループ。通勤車両や新幹線など様々な鉄道車両を製造しています。", alumni: 0, international: true, campus: "tama" },
@@ -386,7 +387,7 @@
         "tama": { name: "多摩キャンパス", dress: "服装自由", time: "12:45 ～ 15:30", color: "info-tama", 
                   timeline: [
                       {t: "12:45", e: "全体挨拶・概要説明"}, {t: "13:00", e: "企業PRタイム"},
-                      {t: "13:40", e: "説明会 (1回目)"}, {t: "14:20", e: "説明会 (2回目)"}, {t: "15:00", e: "説明会 (3回目)"}
+                      {t: "13:40", e: "個別説明会 (1回目)"}, {t: "14:20", e: "個別説明会 (2回目)"}, {t: "15:00", e: "個別説明会 (3回目)"}
                   ]},
         "shonan": { name: "湘南キャンパス", dress: "スーツ着用", time: "13:30 ～ 16:25", color: "info-shonan", 
                   timeline: [
